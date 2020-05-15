@@ -11,3 +11,5 @@
 6. git commit -m"this change changes.." # Commits changes and sets it to new commit object. -m adds a message, do that.
 7. git push     #sends all commited changes to github. 
 8. git checkout <:branch:> #Switch branches. 
+
+9. git pull #
