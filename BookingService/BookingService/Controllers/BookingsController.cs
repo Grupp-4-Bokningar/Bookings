@@ -38,6 +38,13 @@ namespace BookingService.Controllers
             return db.Bookings.Where(s => s.Event_Id == eId).Where(e => e.User_Type == "Volontär");
         }
 
+        [Route("User/{uId:int}")]
+
+        public IQueryable<Bookings> GetBookingFromUser(int uId)
+        {
+            return db.Bookings.Where(s => s.User_Id == uId);
+        }
+
         // GET: api/Bookings/5
         [Route("{id:int}")]
         [ResponseType(typeof(Bookings))]
