@@ -49,6 +49,7 @@ namespace BookingService.Controllers
                 return BadRequest();
             }
             //Secret easter egg.
+            //Secret 2
             db.Entry(bookings).State = EntityState.Modified;
 
             try
