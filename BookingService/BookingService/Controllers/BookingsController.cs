@@ -27,6 +27,7 @@ namespace BookingService.Controllers
         public IHttpActionResult GetBookings(int id)
         {
             Bookings bookings = db.Bookings.Find(id);
+            
             if (bookings == null)
             {
                 return NotFound();
