@@ -13,7 +13,8 @@ namespace AdminPrototypTest.Controllers
     public class HomeController : Controller
     {
         // GET: Home
-        string baseURL = "193.10.202.81/";
+        string baseURL = "http://193.10.202.81/Adminprototype/";
+
         public async Task<ActionResult> Index()
         {
 
@@ -28,7 +29,7 @@ namespace AdminPrototypTest.Controllers
 
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    HttpResponseMessage res = await client.GetAsync("/api/Bookings");
+                    HttpResponseMessage res = await client.GetAsync("api/Bookings");
 
                     if (res.IsSuccessStatusCode)
                     {
