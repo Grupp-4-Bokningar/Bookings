@@ -12,4 +12,4 @@
 7. git push     #sends all commited changes to github. 
 8. git checkout <:branch:> #Switch branches. 
 
-9. git pull #
+9. git pull #Download changed/added files from github compared to local folder. Do this before pushing. 
