@@ -31,10 +31,10 @@ namespace BookingService.Controllers
             {
                 return NotFound();
             }
-            //swag
             return Ok(bookings);
         }
 
+        //should only be for admins?
         // PUT: api/Bookings/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutBookings(int id, Bookings bookings)
@@ -48,8 +48,7 @@ namespace BookingService.Controllers
             {
                 return BadRequest();
             }
-            //Secret easter egg.
-            //Secret 2
+
             db.Entry(bookings).State = EntityState.Modified;
 
             try
@@ -71,19 +70,29 @@ namespace BookingService.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        //'subscribe' to new event as either attende or 
         // POST: api/Bookings
         [ResponseType(typeof(Bookings))]
         public IHttpActionResult PostBookings(Bookings bookings)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                db.Bookings.Add(bookings);
+                db.SaveChanges();
+
+                return CreatedAtRoute("DefaultApi", new { id = bookings.Booking_Id }, bookings);
             }
-
-            db.Bookings.Add(bookings);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = bookings.Booking_Id }, bookings);
+            catch(Exception e)
+            {
+                Console.Write(e);
+                throw;
+            }
+           
         }
 
         // DELETE: api/Bookings/5
