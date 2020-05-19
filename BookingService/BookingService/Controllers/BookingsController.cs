@@ -12,17 +12,34 @@ using BookingService;
 
 namespace BookingService.Controllers
 {
+    [RoutePrefix("api/Bookings")]//Grund urlen
     public class BookingsController : ApiController
     {
         private BookingModel db = new BookingModel();
 
         // GET: api/Bookings
+        [Route("")]
         public IQueryable<Bookings> GetBookings()
         {
             return db.Bookings;
         }
+        //Hämtar alla besökare på ett specifikt event
+        [Route("Event/{eId:int}/Visitor")]//Hur urlen skall se ut
+     
+        public IQueryable<Bookings> GetVisitorOnEvent(int eId)
+        {
+            return db.Bookings.Where(s => s.Event_Id == eId).Where(e => e.User_Type == "Besökare");
+        }
+        //Hämtar alla volontärer på ett specifikt event
+        [Route("Event/{eId:int}/Volounteer")]
+
+        public IQueryable<Bookings> GetVolounteerOnEvent(int eId)
+        {
+            return db.Bookings.Where(s => s.Event_Id == eId).Where(e => e.User_Type == "Volontär");
+        }
 
         // GET: api/Bookings/5
+        [Route("{id:int}")]
         [ResponseType(typeof(Bookings))]
         public IHttpActionResult GetBookings(int id)
         {
@@ -37,6 +54,7 @@ namespace BookingService.Controllers
 
         //should only be for admins?
         // PUT: api/Bookings/5
+        [Route("{id:int}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutBookings(int id, Bookings bookings)
         {
@@ -73,6 +91,7 @@ namespace BookingService.Controllers
 
         //'subscribe' to new event as either attende or 
         // POST: api/Bookings
+        [Route("")]
         [ResponseType(typeof(Bookings))]
         public IHttpActionResult PostBookings(Bookings bookings)
         {
@@ -97,6 +116,7 @@ namespace BookingService.Controllers
         }
 
         // DELETE: api/Bookings/5
+        [Route("{id:int}")]
         [ResponseType(typeof(bool))]
         public IHttpActionResult DeleteBookings(int id)
         {
