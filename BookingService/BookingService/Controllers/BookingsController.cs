@@ -96,7 +96,7 @@ namespace BookingService.Controllers
         }
 
         // DELETE: api/Bookings/5
-        [ResponseType(typeof(Bookings))]
+        [ResponseType(typeof(bool))]
         public IHttpActionResult DeleteBookings(int id)
         {
             Bookings bookings = db.Bookings.Find(id);
@@ -108,7 +108,7 @@ namespace BookingService.Controllers
             db.Bookings.Remove(bookings);
             db.SaveChanges();
 
-            return Ok(bookings);
+            return Ok(true);
         }
 
         protected override void Dispose(bool disposing)
