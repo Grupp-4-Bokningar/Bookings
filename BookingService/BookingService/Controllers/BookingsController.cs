@@ -31,7 +31,6 @@ namespace BookingService.Controllers
             {
                 return NotFound();
             }
-            //swag
             return Ok(bookings);
         }
 
@@ -48,8 +47,7 @@ namespace BookingService.Controllers
             {
                 return BadRequest();
             }
-            //Secret easter egg.
-            //Secret 2
+
             db.Entry(bookings).State = EntityState.Modified;
 
             try
@@ -87,7 +85,7 @@ namespace BookingService.Controllers
         }
 
         // DELETE: api/Bookings/5
-        [ResponseType(typeof(Bookings))]
+        [ResponseType(typeof(bool))]
         public IHttpActionResult DeleteBookings(int id)
         {
             Bookings bookings = db.Bookings.Find(id);
@@ -99,7 +97,7 @@ namespace BookingService.Controllers
             db.Bookings.Remove(bookings);
             db.SaveChanges();
 
-            return Ok(bookings);
+            return Ok(true);
         }
 
         protected override void Dispose(bool disposing)
