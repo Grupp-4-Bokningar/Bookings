@@ -4,8 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @*@Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")*@
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <link href="~/Content/Site.css" rel="stylesheet" />
     <link href="~/Content/Standard.css" rel="stylesheet" />
 </head>
 <body>
@@ -25,10 +26,10 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Login", "About", "Home")</li>
                 </ul>
-            </div>       
+            </div>
         </div>
     </div>
-    <div class="container body-content" >
+    <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
@@ -36,8 +37,8 @@
         </footer>
     </div>
 
-    @*@Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")*@
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
