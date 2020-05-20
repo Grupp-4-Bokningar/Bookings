@@ -70,3 +70,7 @@ C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPa
 C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage.csproj.CopyComplete
 C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage.dll
 C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage.pdb
+C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\bin\Newtonsoft.Json.dll
+C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\bin\System.Net.Http.Formatting.dll
+C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\bin\Newtonsoft.Json.xml
+C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\bin\System.Net.Http.Formatting.xml

@@ -1,10 +1,9 @@
-﻿using System;
+﻿using BookingAdminPage.Models;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 
@@ -13,13 +12,13 @@ namespace BookingAdminPage.Controllers
     public class EventPeopleController : Controller
     {
         // GET: EventPeople
-        string baseUrl = "193.10.202.81/BookingService";
+        string baseUrl = "193.10.202.81/BookingService/";
         // GET: Rest
         public async Task<ActionResult> Index()
         {
             try
             {
-                List<IllegalaDjur> IllegalaDjurInfo = new List<IllegalaDjur>();
+                List<AdminDataModell> EventInfo = new List<AdminDataModell>();
 
                 using (var client = new HttpClient())
                 {
@@ -31,20 +30,20 @@ namespace BookingAdminPage.Controllers
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                     //Sending request to find web api REST service resource GetAllEmployees using HttpClient  
-                    HttpResponseMessage Res = await client.GetAsync("IllegalaDjur");
+                    HttpResponseMessage Res = await client.GetAsync("api/Bookings/Event/1/Visitor");
 
                     //Checking the response is successful or not which is sent using HttpClient  
                     if (Res.IsSuccessStatusCode)
                     {
                         //Storing the response details recieved from web api   
-                        var IllegalaDjurResponse = Res.Content.ReadAsStringAsync().Result;
+                        var AdminDataModellResponse = Res.Content.ReadAsStringAsync().Result;
 
                         //Deserializing the response recieved from web api and storing into the Employee list  
-                        IllegalaDjurInfo = JsonConvert.DeserializeObject<List<IllegalaDjur>>(IllegalaDjurResponse);
+                        EventInfo = JsonConvert.DeserializeObject<List<AdminDataModell>>(AdminDataModellResponse);
 
                     }
                     //returning the employee list to view  
-                    return View(IllegalaDjurInfo);
+                    return View(EventInfo);
                 }
             }
             catch (Exception)
