@@ -45,6 +45,23 @@ namespace BookingService.Controllers
             return db.Bookings.Where(s => s.User_Id == uId);
         }
 
+        //Ska hämta all info om en volontär
+        [Route("Visitor/{uId:int}")]
+        public IQueryable<Bookings> GetAllFromUser(int uId)
+        {
+            try
+            {
+                return db.Bookings.Where(s => s.User_Id == uId);
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                throw;          // senare problem
+            }
+
+        }
+
+
         // GET: api/Bookings/5
         [Route("{id:int}")]
         [ResponseType(typeof(Bookings))]
