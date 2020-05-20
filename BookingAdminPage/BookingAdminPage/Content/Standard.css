@@ -1,0 +1,64 @@
+﻿body {
+    padding-top: 100px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/*ALLT TILL NABAREN*/
+
+/*När du hovrar över*/
+ul.nav a:hover {
+    color: black !important;
+    background-color: lightblue;
+}
+/*texten i navbaren*/
+ul.nav a {
+    color: black;
+}
+/*Ändra första på länken på navbaren*/
+a.navbar-brand {
+    color: black;
+    font-family: Stencil;
+    font-weight: bold;
+    font-size: 35px;
+}
+/*navbaren hela.*/
+.navbar {
+    background-color: #b6e0ea;
+    height: 80px;
+    margin-bottom: 50px;
+}
+/*Lägg till i rad 11 i layoutepage, vid den befintliga klassen*/
+.navbarTextiMitten {
+    font-size: 20px;
+    padding-top: 20px;
+}
+
+/* använd class="btn knapp" */
+.knapp {
+    border-radius: 15px 15px;
+}
+
+/*På form -> input */
+.rundaKanter {
+    border-radius: 15px 15px;
+}
