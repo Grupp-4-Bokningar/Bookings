@@ -138,6 +138,26 @@ namespace BookingService.Controllers
 
             return Ok(true);
         }
+        [Route("User/{uId:int}/Event/{eId:int}")]
+        [ResponseType(typeof(Bookings))]
+        public IHttpActionResult DeleteBookingWithUserIDAndEventID(int uId, int eId)
+        {
+            Bookings bookings = new Bookings();
+            
+            int bookingId = db.Bookings.Where(u => u.User_Id == uId).Where(e => e.Event_Id == eId).Select(i => i.Booking_Id).FirstOrDefault();
+            bookings = db.Bookings.Find(bookingId);
+           
+
+            if (bookings == null)
+            {
+                return NotFound();
+            }
+
+            db.Bookings.Remove(bookings);
+            db.SaveChanges();
+
+            return Ok(true);
+        }
 
         protected override void Dispose(bool disposing)
         {
