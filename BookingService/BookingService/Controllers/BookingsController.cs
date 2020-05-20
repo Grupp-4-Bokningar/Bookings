@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -12,30 +12,56 @@ using BookingService;
 
 namespace BookingService.Controllers
 {
+    [RoutePrefix("api/Bookings")]//Grund urlen
     public class BookingsController : ApiController
     {
         private BookingModel db = new BookingModel();
 
         // GET: api/Bookings
+        [Route("")]
         public IQueryable<Bookings> GetBookings()
         {
             return db.Bookings;
         }
+        //Hämtar alla besökare på ett specifikt event
+        [Route("Event/{eId:int}/Visitor")]//Hur urlen skall se ut
+     
+        public IQueryable<Bookings> GetVisitorOnEvent(int eId)
+        {
+            return db.Bookings.Where(s => s.Event_Id == eId).Where(e => e.User_Type == "Besökare");
+        }
+        //Hämtar alla volontärer på ett specifikt event
+        [Route("Event/{eId:int}/Volounteer")]
+
+        public IQueryable<Bookings> GetVolounteerOnEvent(int eId)
+        {
+            return db.Bookings.Where(s => s.Event_Id == eId).Where(e => e.User_Type == "Volontär");
+        }
+
+        [Route("User/{uId:int}")]
+
+        public IQueryable<Bookings> GetBookingFromUser(int uId)
+        {
+            return db.Bookings.Where(s => s.User_Id == uId);
+        }
 
         // GET: api/Bookings/5
+        [Route("{id:int}")]
         [ResponseType(typeof(Bookings))]
         public IHttpActionResult GetBookings(int id)
         {
             Bookings bookings = db.Bookings.Find(id);
+            
             if (bookings == null)
             {
                 return NotFound();
             }
-
             return Ok(bookings);
         }
 
+        //should only be for admins?
         // PUT: api/Bookings/5
+        [Route("{id:int}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutBookings(int id, Bookings bookings)
         {
@@ -70,23 +96,35 @@ namespace BookingService.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        //'subscribe' to new event as either attende or 
         // POST: api/Bookings
+        [Route("")]
         [ResponseType(typeof(Bookings))]
         public IHttpActionResult PostBookings(Bookings bookings)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                db.Bookings.Add(bookings);
+                db.SaveChanges();
+
+                return CreatedAtRoute("DefaultApi", new { id = bookings.Booking_Id }, bookings);
             }
-
-            db.Bookings.Add(bookings);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = bookings.Booking_Id }, bookings);
+            catch(Exception e)
+            {
+                Console.Write(e);
+                throw;
+            }
+           
         }
 
         // DELETE: api/Bookings/5
-        [ResponseType(typeof(Bookings))]
+        [Route("{id:int}")]
+        [ResponseType(typeof(bool))]
         public IHttpActionResult DeleteBookings(int id)
         {
             Bookings bookings = db.Bookings.Find(id);
@@ -98,7 +136,7 @@ namespace BookingService.Controllers
             db.Bookings.Remove(bookings);
             db.SaveChanges();
 
-            return Ok(bookings);
+            return Ok(true);
         }
 
         protected override void Dispose(bool disposing)
