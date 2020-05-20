@@ -38,12 +38,16 @@ namespace BookingService.Controllers
             return db.Bookings.Where(s => s.Event_Id == eId).Where(e => e.User_Type == "Volontär");
         }
 
+        //Ska hämta all info om en besökare/volontär :)
         [Route("User/{uId:int}")]
 
         public IQueryable<Bookings> GetBookingFromUser(int uId)
         {
-            return db.Bookings.Where(s => s.User_Id == uId);
+
+                return db.Bookings.Where(s => s.User_Id == uId);
+
         }
+
 
         // GET: api/Bookings/5
         [Route("{id:int}")]
@@ -75,8 +79,17 @@ namespace BookingService.Controllers
                 return BadRequest();
             }
 
-            db.Entry(bookings).State = EntityState.Modified;
+            var temp = db.Bookings.Where(e => e.Event_Id == bookings.Event_Id).Where(u => u.User_Id == bookings.User_Id);
 
+            if (temp == null)
+            {
+                db.Entry(bookings).State = EntityState.Modified;
+            }
+            else
+            {
+                return BadRequest("Användaren finns redan inlaggd  på det eventet.");
+            }
+            
             try
             {
                 db.SaveChanges();
@@ -109,10 +122,21 @@ namespace BookingService.Controllers
                     return BadRequest(ModelState);
                 }
 
-                db.Bookings.Add(bookings);
-                db.SaveChanges();
+                var temp = db.Bookings.Where(e => e.Event_Id == bookings.Event_Id).Where(u => u.User_Id == bookings.User_Id); //Kollar så det inte redan finns i databasen
 
-                return CreatedAtRoute("DefaultApi", new { id = bookings.Booking_Id }, bookings);
+                if(temp == null)
+                {
+                    db.Bookings.Add(bookings);
+                    db.SaveChanges();
+
+                    return CreatedAtRoute("DefaultApi", new { id = bookings.Booking_Id }, bookings);
+                }
+                else //Om användaren redan finns på eventet så skickas ett error meddellande tillbaks.
+                {
+                    return BadRequest("Du är redan anmäld på detta event.");
+                }
+
+                
             }
             catch(Exception e)
             {
@@ -128,6 +152,26 @@ namespace BookingService.Controllers
         public IHttpActionResult DeleteBookings(int id)
         {
             Bookings bookings = db.Bookings.Find(id);
+            if (bookings == null)
+            {
+                return NotFound();
+            }
+
+            db.Bookings.Remove(bookings);
+            db.SaveChanges();
+
+            return Ok(true);
+        }
+        [Route("User/{uId:int}/Event/{eId:int}")]
+        [ResponseType(typeof(Bookings))]
+        public IHttpActionResult DeleteBookingWithUserIDAndEventID(int uId, int eId)
+        {
+            Bookings bookings = new Bookings();
+            
+            int bookingId = db.Bookings.Where(u => u.User_Id == uId).Where(e => e.Event_Id == eId).Select(i => i.Booking_Id).FirstOrDefault();
+            bookings = db.Bookings.Find(bookingId);
+           
+
             if (bookings == null)
             {
                 return NotFound();
