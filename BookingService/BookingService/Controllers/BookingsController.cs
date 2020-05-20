@@ -38,29 +38,13 @@ namespace BookingService.Controllers
             return db.Bookings.Where(s => s.Event_Id == eId).Where(e => e.User_Type == "Volontär");
         }
 
-        //Ska hämta all info om en volontär :)
+        //Ska hämta all info om en besökare/volontär :)
         [Route("User/{uId:int}")]
 
         public IQueryable<Bookings> GetBookingFromUser(int uId)
         {
 
                 return db.Bookings.Where(s => s.User_Id == uId);
-
-        }
-
-
-        [Route("Visitor/{uId:int}")]
-        public IQueryable<Bookings> GetAllFromUser(int uId)
-        {
-            try
-            {
-                return db.Bookings.Where(s => s.User_Id == uId);
-            }
-            catch (Exception e)
-            {
-                Console.Write(e);
-                throw;          // senare problem
-            }
 
         }
 
@@ -95,8 +79,17 @@ namespace BookingService.Controllers
                 return BadRequest();
             }
 
-            db.Entry(bookings).State = EntityState.Modified;
+            var temp = db.Bookings.Where(e => e.Event_Id == bookings.Event_Id).Where(u => u.User_Id == bookings.User_Id);
 
+            if (temp == null)
+            {
+                db.Entry(bookings).State = EntityState.Modified;
+            }
+            else
+            {
+                return BadRequest("Användaren finns redan inlaggd  på det eventet.");
+            }
+            
             try
             {
                 db.SaveChanges();
