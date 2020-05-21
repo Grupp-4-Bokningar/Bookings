@@ -6,9 +6,17 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Mvc;
 using BookingService;
+using BookingService.Models;
+using Newtonsoft.Json;
+using RouteAttribute = System.Web.Http.RouteAttribute;
+using RoutePrefixAttribute = System.Web.Http.RoutePrefixAttribute;
 
 namespace BookingService.Controllers
 {
@@ -16,12 +24,37 @@ namespace BookingService.Controllers
     public class BookingsController : ApiController
     {
         private BookingModel db = new BookingModel();
+        string baseURLEvent = "http://193.10.202.77/EventService/api/";
 
         // GET: api/Bookings
         [Route("")]
-        public IQueryable<Bookings> GetBookings()
+        public List<BookingModell> GetBookings()
         {
-            return db.Bookings;
+            List<BookingModell> booksList = new List<BookingModell>();
+            List<EventModell> eventList = new List<EventModell>();
+            EventModell tempEvent = new EventModell();
+
+            var sql = db.Bookings.Select(s => s.Booking_Id).ToArray();
+
+            for (var i = 0; i < sql.Count(); i++)
+            {
+                var temp = sql[i];
+                tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
+                int user = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
+                string userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
+
+                booksList.Add(new BookingModell
+                {
+                     Booking_Id = temp,
+                     EventNamn = tempEvent.Event_Name,
+                     Startdate = tempEvent.Event_Start_Datetime,
+                     Enddate  = tempEvent.Event_End_Datetime,
+                     User_Name = user.ToString(),
+                     User_Type = userType
+                });
+
+            }
+            return booksList;
         }
         //Hämtar alla besökare på ett specifikt event
         [Route("Event/{eId:int}/Visitor")]//Hur urlen skall se ut
@@ -51,16 +84,30 @@ namespace BookingService.Controllers
 
         // GET: api/Bookings/5
         [Route("{id:int}")]
-        [ResponseType(typeof(Bookings))]
+        [ResponseType(typeof(BookingModell))]
         public IHttpActionResult GetBookings(int id)
         {
             Bookings bookings = db.Bookings.Find(id);
-            
+            BookingModell resBookings = new BookingModell();
+
+            EventModell test = new EventModell();
             if (bookings == null)
             {
                 return NotFound();
             }
-            return Ok(bookings);
+
+            test = GetEvent(bookings.Event_Id).Result;
+
+            resBookings.Booking_Id = bookings.Booking_Id;
+            resBookings.EventNamn = test.Event_Name;
+            resBookings.Startdate = test.Event_Start_Datetime;
+            resBookings.Enddate = test.Event_End_Datetime;
+            resBookings.User_Name = bookings.User_Id.ToString();
+            resBookings.User_Type = bookings.User_Type;
+
+
+            
+            return Ok(resBookings);
         }
 
         //should only be for admins?
@@ -192,9 +239,29 @@ namespace BookingService.Controllers
             base.Dispose(disposing);
         }
 
-        private bool BookingsExists(int id)
+        private bool BookingsExists(int? id)
         {
             return db.Bookings.Count(e => e.Booking_Id == id) > 0;
+        }
+        private async Task<EventModell> GetEvent(int id)
+        {
+            EventModell eventList = new EventModell();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseURLEvent);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = client.GetAsync("events/" + id).Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var response = res.Content.ReadAsStringAsync().Result;
+                    eventList = JsonConvert.DeserializeObject<EventModell>(response);
+                    return eventList;
+                }
+            }
+            
+            return eventList;
         }
     }
 }
