@@ -3,5 +3,33 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Snopp</h2>
+<h2>Lista av EventID och AnvändarID</h2>
 
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            Event ID
+        </th>
+        <th>
+            User ID
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User_Id)
+            </td>
+            <td>
+                @Html.ActionLink("Event", "Edit", new { id = item.Booking_Id }) |
+                @Html.ActionLink("Besökare", "People", new { id = item.User_Id })
+            </td>
+        </tr>
+    }
+</table>
