@@ -1,7 +1,45 @@
-﻿
+﻿@model List<BookingAdminPage.Models.AdminDataModell>
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
+<table class="table table-striped">
+    <tr>
+        <th>
+            Booking ID 
+        </th>
+        <th>
+            Event ID
+        </th>
+        <th>
+            User ID
+        </th>
+        <th>
+            User type
+        </th>
+        <th></th>
+    </tr>
 
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Booking_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User_Type)
+            </td>
+            <td>
+                @Html.ActionLink("Ändra", "Edit", new { id = item.Booking_Id}) |
+                @Html.ActionLink("Ta bort", "Delete", new { id = item.Booking_Id })
+            </td>
+        </tr>
+    }
+</table>
