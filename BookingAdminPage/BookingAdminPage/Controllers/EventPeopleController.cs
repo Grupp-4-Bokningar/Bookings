@@ -13,42 +13,7 @@ namespace BookingAdminPage.Controllers
     {
         // GET: EventPeople
         string baseUrl = "http://193.10.202.81/BookingService/";
-        // GET: Rest
-        public async Task<ActionResult> Index()
-        {
-
-                List<AdminDataModell> EventInfo = new List<AdminDataModell>();
-
-                using (var client = new HttpClient())
-                {
-                    //Passing service base url  
-                    client.BaseAddress = new Uri(baseUrl);
-
-                    client.DefaultRequestHeaders.Clear();
-                    //Define request data format  
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    //Sending request to find web api REST service resource GetAllEmployees using HttpClient  
-                    HttpResponseMessage Res = await client.GetAsync("api/Bookings");
-
-                    //Checking the response is successful or not which is sent using HttpClient  
-                    if (Res.IsSuccessStatusCode)
-                    {
-                        //Storing the response details recieved from web api   
-                        var AdminDataModellResponse = Res.Content.ReadAsStringAsync().Result;
-
-                        //Deserializing the response recieved from web api and storing into the Employee list  
-                        EventInfo = JsonConvert.DeserializeObject<List<AdminDataModell>>(AdminDataModellResponse);
-
-                    }
-                    //returning the employee list to view  
-                    return View(EventInfo);
-                }
-            
-
-
-        }
-
+       
         public async Task<ActionResult> People(int id)
         {
             try
