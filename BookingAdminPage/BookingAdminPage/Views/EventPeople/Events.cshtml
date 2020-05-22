@@ -1,25 +1,24 @@
 ﻿@model IEnumerable<BookingAdminPage.Models.AdminDataModell>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Events";
 }
 
-<h2>Lista av EventID och AnvändarID</h2>
-
+<h2>Events</h2>
 
 <table class="table table-striped">
     <tr>
         <th>
-            Event ID
+            @Html.DisplayNameFor(model => model.Event_Id)
         </th>
         <th>
-            User ID
+            @Html.DisplayNameFor(model => model.User_Id)
         </th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Event_Id)
             </td>
@@ -27,8 +26,7 @@
                 @Html.DisplayFor(modelItem => item.User_Id)
             </td>
             <td>
-                @Html.ActionLink("Event", "Edit", new { id = item.Booking_Id }) |
-                @Html.ActionLink("Besökare", "People", new { id = item.User_Id })
+                @Html.ActionLink("Kolla anmälda", "SpecificEvent", "EventPeople", new { id = item.Event_Id },null)
             </td>
         </tr>
     }

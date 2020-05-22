@@ -1,0 +1,31 @@
+﻿@model IEnumerable<BookingAdminPage.Models.AdminDataModell>
+
+@{
+    ViewBag.Title = "SpecificEvent";
+}
+
+<h2>SpecificEvent</h2>
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Event_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User_Id)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(m => item.Event_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.User_Id)
+            </td>
+        </tr>
+    }
+</table>
+@Html.ActionLink("Tillbaka till helvetet", "Events", "EventPeople")

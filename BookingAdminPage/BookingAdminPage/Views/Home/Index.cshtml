@@ -37,8 +37,8 @@
                 @Html.DisplayFor(modelItem => item.User_Type)
             </td>
             <td>
-                @Html.ActionLink("Ändra", "Edit", new { id = item.Booking_Id}) |
-                @Html.ActionLink("Ta bort", "Delete", new { id = item.Booking_Id })
+                @Html.ActionLink("Event", "Edit", new { id = item.Event_Id }) |
+                @Html.ActionLink("Besökare", "People", "EventPeople", new { id = item.User_Id })
             </td>
         </tr>
     }
