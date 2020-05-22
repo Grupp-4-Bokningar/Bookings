@@ -41,6 +41,8 @@
                 @Html.ActionLink("Ta bort", "Delete", new { id = item.Booking_Id }) |
                 @Html.ActionLink("Event", "Edit", "EventPeople", new { id = item.Booking_Id }) |
                 @Html.ActionLink("Besökare", "People", "EventPeople", new { id=item.User_Id }, null )
+                @Html.ActionLink("Event", "Edit", new { id = item.Event_Id }) |
+                @Html.ActionLink("Besökare", "People", "EventPeople", new { id = item.User_Id })
             </td>
         </tr>
     }

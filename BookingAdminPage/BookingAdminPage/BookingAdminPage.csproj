@@ -176,6 +176,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\EventPeople\People.cshtml" />
+    <Content Include="Views\EventPeople\Events.cshtml" />
+    <Content Include="Views\EventPeople\SpecificEvent.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
