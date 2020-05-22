@@ -70,3 +70,5 @@ C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPa
 C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage.csproj.CopyComplete
 C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage.dll
 C:\Users\Lille Fille P\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage.pdb
+C:\Users\Victor\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage.csprojAssemblyReference.cache
+C:\Users\Victor\Documents\GitHub\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage.csproj.CoreCompileInputs.cache
