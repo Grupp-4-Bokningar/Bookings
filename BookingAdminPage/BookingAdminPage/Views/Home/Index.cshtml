@@ -4,10 +4,11 @@
 }
 
 <h2>Index</h2>
+@Html.ActionLink("Skapa ny bokning", "Create")
 <table class="table table-striped">
     <tr>
         <th>
-            Booking ID 
+            Booking ID
         </th>
         <th>
             Event ID
@@ -37,9 +38,10 @@
                 @Html.DisplayFor(modelItem => item.User_Type)
             </td>
             <td>
-                @Html.ActionLink("Ändra", "Edit", new { id = item.Booking_Id}) |
+                @Html.ActionLink("Ändra", "Edit", new { id = item.Booking_Id }) |
                 @Html.ActionLink("Ta bort", "Delete", new { id = item.Booking_Id })
             </td>
+
         </tr>
     }
 </table>

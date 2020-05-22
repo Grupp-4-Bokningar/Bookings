@@ -49,7 +49,34 @@ namespace BookingAdminPage.Controllers
             }
 
         }
-        
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> Create([Bind(Include = "Event_Id,User_Id,User_Type")] AdminDataModell booking)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(baseUrl);
+
+                    var response = await client.PostAsJsonAsync("api/Bookings", booking);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Server error try after some time.");
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
         public async Task<ActionResult> Edit(int id)
         {
             if (id == 0)
@@ -88,7 +115,7 @@ namespace BookingAdminPage.Controllers
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(baseUrl);
-                    var response = await client.PutAsJsonAsync($"Bookings/{booking.Booking_Id}", booking);
+                    var response = await client.PutAsJsonAsync($"api/Bookings/{booking.Booking_Id}", booking);
                     if (response.IsSuccessStatusCode)
                     {
                         return RedirectToAction("Index");
@@ -101,6 +128,54 @@ namespace BookingAdminPage.Controllers
                 return RedirectToAction("Index");
             }
             return View(booking);
+        }
+
+        public async Task<ActionResult> Delete(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AdminDataModell booking = null;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrl);
+
+                var result = await client.GetAsync($"api/Bookings/{id}");
+
+                if (result.IsSuccessStatusCode)
+                {
+                    booking = await result.Content.ReadAsAsync<AdminDataModell>();
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Server error try after some time.");
+                }
+            }
+
+            if (booking == null)
+            {
+                return HttpNotFound();
+            }
+            return View(booking);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrl);
+
+                var response = await client.DeleteAsync($"api/Bookings/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                    ModelState.AddModelError(string.Empty, "Server error try after some time.");
+            }
+            return RedirectToAction("Index");
         }
     }
 }
