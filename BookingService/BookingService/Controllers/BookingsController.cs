@@ -46,9 +46,11 @@ namespace BookingService.Controllers
                 bookingList.Add(new BookingModell
                 {
                      Booking_Id = temp,
+                     Event_Id = tempEvent.Event_Id,
                      EventNamn = tempEvent.Event_Name,
                      Startdate = tempEvent.Event_Start_Datetime,
                      Enddate  = tempEvent.Event_End_Datetime,
+                     User_Id = user,
                      User_Name = user.ToString(),
                      User_Type = userType
                 });
@@ -76,9 +78,11 @@ namespace BookingService.Controllers
                 bookingList.Add(new BookingModell
                 {
                     Booking_Id = temp,
+                    Event_Id = tempEvent.Event_Id,
                     EventNamn = tempEvent.Event_Name,
                     Startdate = tempEvent.Event_Start_Datetime,
                     Enddate = tempEvent.Event_End_Datetime,
+                    User_Id = user,
                     User_Name = user.ToString(),
                     User_Type = userType
                 });
@@ -108,9 +112,11 @@ namespace BookingService.Controllers
                 bookingList.Add(new BookingModell
                 {
                     Booking_Id = temp,
+                    Event_Id = tempEvent.Event_Id,
                     EventNamn = tempEvent.Event_Name,
                     Startdate = tempEvent.Event_Start_Datetime,
                     Enddate = tempEvent.Event_End_Datetime,
+                    User_Id = user,
                     User_Name = user.ToString(),
                     User_Type = userType
                 });
@@ -141,9 +147,11 @@ namespace BookingService.Controllers
                 bookingList.Add(new BookingModell
                 {
                     Booking_Id = temp,
+                    Event_Id = tempEvent.Event_Id,
                     EventNamn = tempEvent.Event_Name,
                     Startdate = tempEvent.Event_Start_Datetime,
                     Enddate = tempEvent.Event_End_Datetime,
+                    User_Id = uId,
                     User_Name = uId.ToString(),
                     User_Type = userType
 
@@ -173,9 +181,11 @@ namespace BookingService.Controllers
             test = GetEvent(bookings.Event_Id).Result;
 
             resBookings.Booking_Id = bookings.Booking_Id;
+            resBookings.Event_Id = test.Event_Id;
             resBookings.EventNamn = test.Event_Name;
             resBookings.Startdate = test.Event_Start_Datetime;
             resBookings.Enddate = test.Event_End_Datetime;
+            resBookings.User_Id = bookings.User_Id;
             resBookings.User_Name = bookings.User_Id.ToString();
             resBookings.User_Type = bookings.User_Type;
 
