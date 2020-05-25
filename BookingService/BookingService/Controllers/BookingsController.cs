@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Mvc;
+using System.Web.UI;
 using BookingService;
 using BookingService.Models;
 using Newtonsoft.Json;
@@ -30,8 +31,7 @@ namespace BookingService.Controllers
         [Route("")]
         public List<BookingModell> GetBookings()
         {
-            List<BookingModell> booksList = new List<BookingModell>();
-            List<EventModell> eventList = new List<EventModell>();
+            List<BookingModell> bookingList = new List<BookingModell>();
             EventModell tempEvent = new EventModell();
 
             var sql = db.Bookings.Select(s => s.Booking_Id).ToArray();
@@ -43,7 +43,7 @@ namespace BookingService.Controllers
                 int user = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
                 string userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
 
-                booksList.Add(new BookingModell
+                bookingList.Add(new BookingModell
                 {
                      Booking_Id = temp,
                      EventNamn = tempEvent.Event_Name,
@@ -54,30 +54,104 @@ namespace BookingService.Controllers
                 });
 
             }
-            return booksList;
+            return bookingList;
         }
         //Hämtar alla besökare på ett specifikt event
         [Route("Event/{eId:int}/Visitor")]//Hur urlen skall se ut
      
-        public IQueryable<Bookings> GetVisitorOnEvent(int eId)
+        public List<BookingModell> GetVisitorOnEvent(int eId)
         {
-            return db.Bookings.Where(s => s.Event_Id == eId).Where(e => e.User_Type == "Besökare");
+            List<BookingModell> bookingList = new List<BookingModell>();
+            EventModell tempEvent = new EventModell();
+
+            var sql = db.Bookings.Where(b => b.User_Type == "Besökare").Select(s => s.Booking_Id).ToArray();
+
+            for(var i = 0; i < sql.Count(); i++)
+            {
+                var temp = sql[i];
+                tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Where(s => s.User_Type == "Besökare").Select(s => s.Event_Id).FirstOrDefault()).Result;
+                int user = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
+                string userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
+
+                bookingList.Add(new BookingModell
+                {
+                    Booking_Id = temp,
+                    EventNamn = tempEvent.Event_Name,
+                    Startdate = tempEvent.Event_Start_Datetime,
+                    Enddate = tempEvent.Event_End_Datetime,
+                    User_Name = user.ToString(),
+                    User_Type = userType
+                });
+
+
+            }
+
+            return bookingList;
         }
         //Hämtar alla volontärer på ett specifikt event
         [Route("Event/{eId:int}/Volounteer")]
 
-        public IQueryable<Bookings> GetVolounteerOnEvent(int eId)
+        public List<BookingModell> GetVolounteerOnEvent(int eId)
         {
-            return db.Bookings.Where(s => s.Event_Id == eId).Where(e => e.User_Type == "Volontär");
+            List<BookingModell> bookingList = new List<BookingModell>();
+            EventModell tempEvent = new EventModell();
+
+            var sql = db.Bookings.Where(b => b.User_Type == "Volontär").Select(s => s.Booking_Id).ToArray();
+
+            for (var i = 0; i < sql.Count(); i++)
+            {
+                var temp = sql[i];
+                tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Where(s => s.User_Type == "Volontär").Select(s => s.Event_Id).FirstOrDefault()).Result;
+                int user = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
+                string userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
+
+                bookingList.Add(new BookingModell
+                {
+                    Booking_Id = temp,
+                    EventNamn = tempEvent.Event_Name,
+                    Startdate = tempEvent.Event_Start_Datetime,
+                    Enddate = tempEvent.Event_End_Datetime,
+                    User_Name = user.ToString(),
+                    User_Type = userType
+                });
+
+
+            }
+
+            return bookingList;
         }
 
         //Ska hämta all info om en besökare/volontär :)
         [Route("User/{uId:int}")]
 
-        public IQueryable<Bookings> GetBookingFromUser(int uId)
+        public List<BookingModell> GetBookingFromUser(int uId)
         {
+            List<BookingModell> bookingList = new List<BookingModell>();
+            EventModell tempEvent = new EventModell();
 
-                return db.Bookings.Where(s => s.User_Id == uId);
+            var sql = db.Bookings.Where(u => u.User_Id == uId).Select(u => u.Booking_Id).ToArray();
+
+            for(int i = 0; i<sql.Count(); i++)
+            {
+                int temp = sql[i];
+
+                tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
+                string userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
+
+                bookingList.Add(new BookingModell
+                {
+                    Booking_Id = temp,
+                    EventNamn = tempEvent.Event_Name,
+                    Startdate = tempEvent.Event_Start_Datetime,
+                    Enddate = tempEvent.Event_End_Datetime,
+                    User_Name = uId.ToString(),
+                    User_Type = userType
+
+                });
+            }
+
+
+            return bookingList;
 
         }
 
