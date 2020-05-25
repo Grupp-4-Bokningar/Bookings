@@ -4,28 +4,57 @@
     ViewBag.Title = "SpecificEvent";
 }
 
-<h2>SpecificEvent</h2>
+@foreach (var item in Model)
+{
+    <h2>
+        @Html.DisplayFor(m => item.Event_Name)
+    </h2>
+    break;
+}
 <table class="table table-striped">
     <tr>
         <th>
-            Event_Id
+            Event ID
         </th>
         <th>
-            User_ID
+            Event namn
+        </th>
+        <th>
+            Användar ID
+        </th>
+        <th>
+            Eventroll
+        <th>
+            Starttid
+
+        </th>
+        <th>
+            Sluttid
         </th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-
             <td>
                 @Html.DisplayFor(m => item.Event_Id)
             </td>
             <td>
+                @Html.DisplayFor(m => item.Event_Name)
+            </td>
+            <td>
                 @Html.DisplayFor(m => item.User_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.User_Type)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.Event_Start_Datetime)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.Event_End_Datetime)
             </td>
         </tr>
     }
 </table>
-@Html.ActionLink("Tillbaka", "Events", "EventPeople")
+@Html.ActionLink("Tillbaka", "Event", "EventPeople")

@@ -1,0 +1,14 @@
+﻿@model List<BookingAdminPage.Models.EventModell>
+@{
+    ViewBag.Title = "Event";
+}
+
+<h2>Event</h2>
+<div>
+    <ul>
+        @foreach (var item in Model)
+        {
+        <li>@Html.ActionLink(item.Event_Name, "SpecificEvent", new { id = item.Event_Id })</li>
+        }
+    </ul>
+</div>

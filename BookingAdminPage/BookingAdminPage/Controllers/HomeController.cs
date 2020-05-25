@@ -44,7 +44,7 @@ namespace BookingAdminPage.Controllers
                     allBookingList = JsonConvert.DeserializeObject<List<AdminDataModell>>(responseBookings);
 
                 }
-                //returning the employee list to view  
+                //returning the employee list to view
                 return View(allBookingList);
             }
 
@@ -55,7 +55,7 @@ namespace BookingAdminPage.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<ActionResult> Create([Bind(Include = "Event_Id,User_Id,User_Type")] AdminDataModell booking)
+        public async Task<ActionResult> Create([Bind(Include = "Event_Id,User_Id,User_Type")] BookingModel booking)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace BookingAdminPage.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AdminDataModell booking = null;
+            BookingModel booking = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(baseUrl);
@@ -94,7 +94,7 @@ namespace BookingAdminPage.Controllers
                 {
                     var responseBooking = Res.Content.ReadAsStringAsync().Result;
                     //booking = await Res.Content.ReadAsAsync<AdminDataModell>();
-                    booking = JsonConvert.DeserializeObject<AdminDataModell>(responseBooking);
+                    booking = JsonConvert.DeserializeObject<BookingModel>(responseBooking);
                 }
                 else
                 {
@@ -108,7 +108,7 @@ namespace BookingAdminPage.Controllers
             return View(booking);
         }
         [HttpPost]
-        public async Task<ActionResult> Update([Bind(Include = "Booking_Id,Event_Id,User_Id,User_Type")] AdminDataModell booking)
+        public async Task<ActionResult> Update([Bind(Include = "Booking_Id,Event_Id,User_Id,User_Type")] BookingModel booking)
         {
             if (ModelState.IsValid)
             {
@@ -136,7 +136,7 @@ namespace BookingAdminPage.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AdminDataModell booking = null;
+            BookingModel booking = null;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(baseUrl);
@@ -145,7 +145,7 @@ namespace BookingAdminPage.Controllers
 
                 if (result.IsSuccessStatusCode)
                 {
-                    booking = await result.Content.ReadAsAsync<AdminDataModell>();
+                    booking = await result.Content.ReadAsAsync<BookingModel>();
                 }
                 else
                 {

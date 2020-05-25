@@ -8,43 +8,52 @@
 <table class="table table-striped">
     <tr>
         <th>
-            Booking ID
+            Booknings ID
         </th>
         <th>
-            Event ID
+            Event namn
         </th>
         <th>
-            User ID
+            Starttid
         </th>
         <th>
-            User type
+            Sluttid
         </th>
-        <th></th>
+        <th>
+            Användarnamn
+        </th>
+        <th>
+            Användartyp
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Booking_Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Event_Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User_Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User_Type)
-            </td>
-            <td>
-                @Html.ActionLink("Ändra", "Edit", new { id = item.Booking_Id }) |
-                @Html.ActionLink("Ta bort", "Delete", new { id = item.Booking_Id }) |
-                @Html.ActionLink("Kolla anmälda", "SpecificEvent", "EventPeople", new { id = item.Event_Id }, null) |
-                @Html.ActionLink("Besökare", "People", "EventPeople", new { id = item.User_Id }, null)
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Booking_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Event_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Event_Start_Datetime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Event_End_Datetime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User_Type)
+        </td>
+        <td>
+            @Html.ActionLink("Ändra", "Edit", new { id = item.Booking_Id }) |
+            @Html.ActionLink("Ta bort", "Delete", new { id = item.Booking_Id }) 
 
-            </td>
+        </td>
 
-        </tr>
+    </tr>
     }
 </table>

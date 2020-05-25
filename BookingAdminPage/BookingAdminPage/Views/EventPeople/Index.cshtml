@@ -1,0 +1,15 @@
+﻿@model List<BookingAdminPage.Models.AdminDataModell>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Användare</h2>
+
+<div>
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li> @Html.ActionLink(item.User_Name, "People", new { id=item.User_Id})</li>
+        }
+    </ul>
+</div>

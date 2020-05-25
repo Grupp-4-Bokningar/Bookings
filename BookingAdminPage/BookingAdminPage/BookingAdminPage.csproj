@@ -156,6 +156,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminDataModell.cs" />
+    <Compile Include="Models\BookingModel.cs" />
+    <Compile Include="Models\EventModell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +181,8 @@
     <Content Include="Views\Home\Create.cshtml" />
     <Content Include="Views\EventPeople\People.cshtml" />
     <Content Include="Views\EventPeople\SpecificEvent.cshtml" />
+    <Content Include="Views\EventPeople\Index.cshtml" />
+    <Content Include="Views\EventPeople\Event.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

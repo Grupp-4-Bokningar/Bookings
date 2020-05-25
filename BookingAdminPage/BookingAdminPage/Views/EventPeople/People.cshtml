@@ -5,33 +5,54 @@
 }
 
 <h2>Användarid bokat till Event </h2>
-
+@foreach(var item in Model)
+{
+    <h2>
+        @Html.DisplayFor(m=>item.User_Id)
+    </h2>
+    break;
+}
 
 <table class="table table-striped">
     <tr>
         <th>
-            UserID:
-            @foreach (var item in Model)
-            {
-                @Html.DisplayFor(Model => item.User_Id)
-                break;
-            }
+            Event ID
         </th>
-    </tr>
-    <tr>
-        <td>
-            EventID:
-        </td>
+        <th>
+            Eventnamn
+        </th>
+        <th>
+            Starttid
+        </th>
+        <th>
+            Sluttid
+        </th>
+        <th>
+            Eventroll
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
+    <tr>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Event_Id)
-            </td>
-        </tr>
+        <td>
+
+            @Html.DisplayFor(modelItem => item.Event_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelitem => item.Event_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelitem => item.Event_Start_Datetime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelitem => item.Event_End_Datetime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelitem => item.User_Type)
+        </td>
+    </tr>
     }
 </table>
 @Html.ActionLink("Tillbaka", "Index", "Home")
