@@ -66,7 +66,7 @@ namespace BookingService.Controllers
             List<BookingModell> bookingList = new List<BookingModell>();
             EventModell tempEvent = new EventModell();
 
-            var sql = db.Bookings.Where(b => b.User_Type == "Besökare").Select(s => s.Booking_Id).ToArray();
+            var sql = db.Bookings.Where(b => b.User_Type == "Besökare").Where(s => s.Event_Id == eId).Select(s => s.Booking_Id).ToArray();
 
             for(var i = 0; i < sql.Count(); i++)
             {
@@ -100,7 +100,7 @@ namespace BookingService.Controllers
             List<BookingModell> bookingList = new List<BookingModell>();
             EventModell tempEvent = new EventModell();
 
-            var sql = db.Bookings.Where(b => b.User_Type == "Volontär").Select(s => s.Booking_Id).ToArray();
+            var sql = db.Bookings.Where(b => b.User_Type == "Volontär").Where(s => s.Event_Id == eId).Select(s => s.Booking_Id).ToArray();
 
             for (var i = 0; i < sql.Count(); i++)
             {
