@@ -26,34 +26,62 @@ namespace BookingService.Controllers
     {
         private BookingModel db = new BookingModel();
         string baseURLEvent = "http://193.10.202.77/EventService/api/";
-
+        string baseUrlLogin = "http://193.10.202.76/api/";
         // GET: api/Bookings
         [Route("")]
         public List<BookingModell> GetBookings()
         {
             List<BookingModell> bookingList = new List<BookingModell>();
             EventModell tempEvent = new EventModell();
+            UserModel tempUser = new UserModel();
 
             var sql = db.Bookings.Select(s => s.Booking_Id).ToArray();
 
             for (var i = 0; i < sql.Count(); i++)
             {
                 var temp = sql[i];
-                tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
-                int user = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
+                int userId = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
+
+                try
+                {
+                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
+                    tempUser = GetUser(userId).Result;
+                }
+                catch
+                {
+                    //Lägg in loggning här.
+                }
+
                 string userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
 
-                bookingList.Add(new BookingModell
+                if (tempUser != null)
                 {
-                     Booking_Id = temp,
-                     Event_Id = tempEvent.Event_Id,
-                     Event_Name = tempEvent.Event_Name,
-                     Event_Start_Datetime = tempEvent.Event_Start_Datetime,
-                     Event_End_Datetime  = tempEvent.Event_End_Datetime,
-                     User_Id = user,
-                     User_Name = user.ToString(),
-                     User_Type = userType
-                });
+                    bookingList.Add(new BookingModell
+                    {
+                        Booking_Id = temp,
+                        Event_Id = tempEvent.Event_Id,
+                        Event_Name = tempEvent.Event_Name,
+                        Event_Start_Datetime = tempEvent.Event_Start_Datetime,
+                        Event_End_Datetime = tempEvent.Event_End_Datetime,
+                        User_Id = userId,
+                        User_Name = tempUser.Firstname + " " + tempUser.Lastname,
+                        User_Type = userType
+                    });
+                }
+                else
+                {
+                    bookingList.Add(new BookingModell
+                    {
+                        Booking_Id = temp,
+                        Event_Id = tempEvent.Event_Id,
+                        Event_Name = tempEvent.Event_Name,
+                        Event_Start_Datetime = tempEvent.Event_Start_Datetime,
+                        Event_End_Datetime = tempEvent.Event_End_Datetime,
+                        User_Id = userId,
+                        User_Name = "",
+                        User_Type = userType
+                    });
+                }
 
             }
             return bookingList;
@@ -210,17 +238,24 @@ namespace BookingService.Controllers
                 return BadRequest();
             }
 
-            var temp = db.Bookings.Where(e => e.Event_Id == bookings.Event_Id).Where(u => u.User_Id == bookings.User_Id);
 
-            if (temp == null)
+
+            var temp = db.Bookings.Where(s => s.Event_Id == bookings.Event_Id).Where(s => s.User_Id == bookings.User_Id).Where(s => s.Booking_Id != bookings.Booking_Id);
+
+            if(temp == null)
             {
                 db.Entry(bookings).State = EntityState.Modified;
             }
             else
             {
-                return BadRequest("Användaren finns redan inlaggd  på det eventet.");
+                return BadRequest("Den användaren är redan inlaggd på det eventet");
             }
+                        
+
             
+
+           
+
             try
             {
                 db.SaveChanges();
@@ -329,7 +364,7 @@ namespace BookingService.Controllers
         }
         private async Task<EventModell> GetEvent(int id)
         {
-            EventModell eventList = new EventModell();
+            EventModell eventObj = new EventModell();
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(baseURLEvent);
@@ -340,12 +375,32 @@ namespace BookingService.Controllers
                 if (res.IsSuccessStatusCode)
                 {
                     var response = res.Content.ReadAsStringAsync().Result;
-                    eventList = JsonConvert.DeserializeObject<EventModell>(response);
-                    return eventList;
+                    eventObj = JsonConvert.DeserializeObject<EventModell>(response);
+                    return eventObj;
                 }
             }
             
-            return eventList;
+            return eventObj;
+        }
+        private async Task<UserModel> GetUser(int id)
+        {
+            UserModel userObj = new UserModel();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrlLogin);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage res = client.GetAsync("visitor/" + id).Result;
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var response = res.Content.ReadAsStringAsync().Result;
+                    userObj = JsonConvert.DeserializeObject<UserModel>(response);
+                    return userObj;
+                }
+
+                return userObj;
+            }
         }
     }
 }
