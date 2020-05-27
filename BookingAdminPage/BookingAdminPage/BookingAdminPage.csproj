@@ -157,6 +157,7 @@
     </Compile>
     <Compile Include="Models\AdminDataModell.cs" />
     <Compile Include="Models\BookingModel.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\EventModell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
