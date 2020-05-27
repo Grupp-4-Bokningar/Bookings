@@ -395,26 +395,10 @@ namespace BookingService.Controllers
                 return BadRequest();
             }
 
-
-
-            var temp = db.Bookings.Where(s => s.Event_Id == bookings.Event_Id).Where(s => s.User_Id == bookings.User_Id).Where(s => s.Booking_Id != bookings.Booking_Id);
-
-            if(temp == null)
-            {
-                db.Entry(bookings).State = EntityState.Modified;
-            }
-            else
-            {
-                return BadRequest("Den användaren är redan inlaggd på det eventet");
-            }
-                        
-
-            
-
-           
-
+            // Skulle behöva felhantering av dubbellagring.
             try
             {
+                db.Entry(bookings).State = EntityState.Modified;
                 db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
