@@ -36,7 +36,8 @@ namespace BookingService.Controllers
             UserModel tempUser = new UserModel();
 
             var sql = db.Bookings.Select(s => s.Booking_Id).ToArray();
-
+            string userType;
+            int eventId;
             for (var i = 0; i < sql.Count(); i++)
             {
                 var temp = sql[i];
@@ -47,12 +48,28 @@ namespace BookingService.Controllers
                     tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
                     tempUser = GetUser(userId).Result;
                 }
-                catch
+                catch(InvalidOperationException e)
                 {
                     //Lägg in loggning här.
+                    for(var t = 0; t < sql.Count(); t++)
+                    {
+                        temp = sql[t];
+                        userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
+                        userId = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
+                        eventId = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault();
+                        bookingList.Add(new BookingModell
+                        {
+
+                            Booking_Id = temp,
+                            Event_Id = eventId,
+                            User_Id = userId,
+                            User_Type = userType
+                        });
+                    }
+                    return bookingList;
                 }
 
-                string userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
+                userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
 
                 if (tempUser != null)
                 {
@@ -93,27 +110,69 @@ namespace BookingService.Controllers
         {
             List<BookingModell> bookingList = new List<BookingModell>();
             EventModell tempEvent = new EventModell();
+            UserModel tempUser = new UserModel();
 
             var sql = db.Bookings.Where(b => b.User_Type == "Besökare").Where(s => s.Event_Id == eId).Select(s => s.Booking_Id).ToArray();
 
             for(var i = 0; i < sql.Count(); i++)
             {
                 var temp = sql[i];
-                tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Where(s => s.User_Type == "Besökare").Select(s => s.Event_Id).FirstOrDefault()).Result;
                 int user = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
                 string userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
 
-                bookingList.Add(new BookingModell
+                try
                 {
-                    Booking_Id = temp,
-                    Event_Id = tempEvent.Event_Id,
-                    Event_Name = tempEvent.Event_Name,
-                    Event_Start_Datetime = tempEvent.Event_Start_Datetime,
-                    Event_End_Datetime = tempEvent.Event_End_Datetime,
-                    User_Id = user,
-                    User_Name = user.ToString(),
-                    User_Type = userType
-                });
+                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
+                    tempUser = GetUser(user).Result;
+                }
+                catch (InvalidOperationException e)
+                {
+                    //Lägg in loggning här.
+                    for (var t = 0; t < sql.Count(); t++)
+                    {
+                        temp = sql[t];
+                        userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
+                        user = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
+                        bookingList.Add(new BookingModell
+                        {
+
+                            Booking_Id = temp,
+                            Event_Id = eId,
+                            User_Id = user,
+                            User_Type = userType
+                        });
+                    }
+                    return bookingList;
+                }
+
+                if (tempUser != null)
+                {
+                    bookingList.Add(new BookingModell
+                    {
+                        Booking_Id = temp,
+                        Event_Id = tempEvent.Event_Id,
+                        Event_Name = tempEvent.Event_Name,
+                        Event_Start_Datetime = tempEvent.Event_Start_Datetime,
+                        Event_End_Datetime = tempEvent.Event_End_Datetime,
+                        User_Id = user,
+                        User_Name = tempUser.Firstname + " " + tempUser.Lastname,
+                        User_Type = userType
+                    });
+                }
+                else
+                {
+                    bookingList.Add(new BookingModell
+                    {
+                        Booking_Id = temp,
+                        Event_Id = tempEvent.Event_Id,
+                        Event_Name = tempEvent.Event_Name,
+                        Event_Start_Datetime = tempEvent.Event_Start_Datetime,
+                        Event_End_Datetime = tempEvent.Event_End_Datetime,
+                        User_Id = user,
+                        User_Name = "",
+                        User_Type = userType
+                    });
+                }
 
 
             }
@@ -127,27 +186,68 @@ namespace BookingService.Controllers
         {
             List<BookingModell> bookingList = new List<BookingModell>();
             EventModell tempEvent = new EventModell();
+            UserModel tempUser = new UserModel();
 
             var sql = db.Bookings.Where(b => b.User_Type == "Volontär").Where(s => s.Event_Id == eId).Select(s => s.Booking_Id).ToArray();
 
             for (var i = 0; i < sql.Count(); i++)
             {
                 var temp = sql[i];
-                tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Where(s => s.User_Type == "Volontär").Select(s => s.Event_Id).FirstOrDefault()).Result;
                 int user = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
                 string userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
 
-                bookingList.Add(new BookingModell
+                try
                 {
-                    Booking_Id = temp,
-                    Event_Id = tempEvent.Event_Id,
-                    Event_Name = tempEvent.Event_Name,
-                    Event_Start_Datetime = tempEvent.Event_Start_Datetime,
-                    Event_End_Datetime = tempEvent.Event_End_Datetime,
-                    User_Id = user,
-                    User_Name = user.ToString(),
-                    User_Type = userType
-                });
+                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
+                    tempUser = GetUser(user).Result;
+                }
+                catch (InvalidOperationException e)
+                {
+                    //Lägg in loggning här.
+                    for (var t = 0; t < sql.Count(); t++)
+                    {
+                        temp = sql[t];
+                        userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
+                        user = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
+                        bookingList.Add(new BookingModell
+                        {
+
+                            Booking_Id = temp,
+                            Event_Id = eId,
+                            User_Id = user,
+                            User_Type = userType
+                        });
+                    }
+                    return bookingList;
+                }
+                if (tempUser != null)
+                {
+                    bookingList.Add(new BookingModell
+                    {
+                        Booking_Id = temp,
+                        Event_Id = tempEvent.Event_Id,
+                        Event_Name = tempEvent.Event_Name,
+                        Event_Start_Datetime = tempEvent.Event_Start_Datetime,
+                        Event_End_Datetime = tempEvent.Event_End_Datetime,
+                        User_Id = user,
+                        User_Name = tempUser.Firstname + " " + tempUser.Lastname,
+                        User_Type = userType
+                    });
+                }
+                else
+                {
+                    bookingList.Add(new BookingModell
+                    {
+                        Booking_Id = temp,
+                        Event_Id = tempEvent.Event_Id,
+                        Event_Name = tempEvent.Event_Name,
+                        Event_Start_Datetime = tempEvent.Event_Start_Datetime,
+                        Event_End_Datetime = tempEvent.Event_End_Datetime,
+                        User_Id = user,
+                        User_Name = "",
+                        User_Type = userType
+                    });
+                }
 
 
             }
@@ -162,28 +262,68 @@ namespace BookingService.Controllers
         {
             List<BookingModell> bookingList = new List<BookingModell>();
             EventModell tempEvent = new EventModell();
+            UserModel tempUser = new UserModel();
 
             var sql = db.Bookings.Where(u => u.User_Id == uId).Select(u => u.Booking_Id).ToArray();
-
+            int eventId;
             for(int i = 0; i<sql.Count(); i++)
             {
                 int temp = sql[i];
 
-                tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
                 string userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
 
-                bookingList.Add(new BookingModell
+                try
                 {
-                    Booking_Id = temp,
-                    Event_Id = tempEvent.Event_Id,
-                    Event_Name = tempEvent.Event_Name,
-                    Event_Start_Datetime = tempEvent.Event_Start_Datetime,
-                    Event_End_Datetime = tempEvent.Event_End_Datetime,
-                    User_Id = uId,
-                    User_Name = uId.ToString(),
-                    User_Type = userType
+                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
+                    tempUser = GetUser(uId).Result;
+                }
+                catch (InvalidOperationException e)
+                {
+                    //Lägg in loggning här.
+                    for (var t = 0; t < sql.Count(); t++)
+                    {
+                        temp = sql[t];
+                        userType = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Type).FirstOrDefault();
+                        eventId = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault();
+                        bookingList.Add(new BookingModell
+                        {
 
-                });
+                            Booking_Id = temp,
+                            Event_Id = eventId,
+                            User_Id = uId,
+                            User_Type = userType
+                        });
+                    }
+                    return bookingList;
+                }
+                if (tempUser != null)
+                {
+                    bookingList.Add(new BookingModell
+                    {
+                        Booking_Id = temp,
+                        Event_Id = tempEvent.Event_Id,
+                        Event_Name = tempEvent.Event_Name,
+                        Event_Start_Datetime = tempEvent.Event_Start_Datetime,
+                        Event_End_Datetime = tempEvent.Event_End_Datetime,
+                        User_Id = uId,
+                        User_Name = tempUser.Firstname + " " + tempUser.Lastname,
+                        User_Type = userType
+                    });
+                }
+                else
+                {
+                    bookingList.Add(new BookingModell
+                    {
+                        Booking_Id = temp,
+                        Event_Id = tempEvent.Event_Id,
+                        Event_Name = tempEvent.Event_Name,
+                        Event_Start_Datetime = tempEvent.Event_Start_Datetime,
+                        Event_End_Datetime = tempEvent.Event_End_Datetime,
+                        User_Id = uId,
+                        User_Name = "",
+                        User_Type = userType
+                    });
+                }
             }
 
 
@@ -199,14 +339,24 @@ namespace BookingService.Controllers
         {
             Bookings bookings = db.Bookings.Find(id);
             BookingModell resBookings = new BookingModell();
-
+            UserModel tempUser = new UserModel();
             EventModell test = new EventModell();
+
             if (bookings == null)
             {
                 return NotFound();
             }
 
-            test = GetEvent(bookings.Event_Id).Result;
+            try
+            {
+                test = GetEvent(bookings.Event_Id).Result;
+                tempUser = GetUser(bookings.User_Id).Result;
+            }
+            catch(InvalidOperationException e)
+            {
+
+            }
+            
 
             resBookings.Booking_Id = bookings.Booking_Id;
             resBookings.Event_Id = test.Event_Id;
@@ -214,7 +364,14 @@ namespace BookingService.Controllers
             resBookings.Event_Start_Datetime = test.Event_Start_Datetime;
             resBookings.Event_End_Datetime = test.Event_End_Datetime;
             resBookings.User_Id = bookings.User_Id;
-            resBookings.User_Name = bookings.User_Id.ToString();
+            if(tempUser != null)
+            {
+                resBookings.User_Name = tempUser.Firstname + " " + tempUser.Lastname;
+            }
+            else
+            {
+                resBookings.User_Name = "";
+            }
             resBookings.User_Type = bookings.User_Type;
 
 
