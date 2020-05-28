@@ -152,12 +152,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EventPeopleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AdminDataModell.cs" />
     <Compile Include="Models\BookingModel.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Credentials.cs" />
     <Compile Include="Models\EventModell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -184,6 +186,7 @@
     <Content Include="Views\EventPeople\SpecificEvent.cshtml" />
     <Content Include="Views\EventPeople\Index.cshtml" />
     <Content Include="Views\EventPeople\Event.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

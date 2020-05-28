@@ -16,6 +16,7 @@ namespace BookingAdminPage.Controllers
     {
         string baseUrl = "http://193.10.202.81/BookingService/";
         // GET: Home
+        [Authorize]
         public async Task<ActionResult> Index()
         {
 
@@ -49,7 +50,7 @@ namespace BookingAdminPage.Controllers
             }
 
         }
-
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -76,7 +77,7 @@ namespace BookingAdminPage.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        [Authorize]
         public async Task<ActionResult> Edit(int id)
         {
             if (id == 0)
@@ -129,7 +130,7 @@ namespace BookingAdminPage.Controllers
             }
             return View(booking);
         }
-
+        [Authorize]
         public async Task<ActionResult> Delete(int id)
         {
             if (id == 0)
