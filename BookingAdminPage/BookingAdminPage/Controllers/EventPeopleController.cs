@@ -14,6 +14,7 @@ namespace BookingAdminPage.Controllers
         // GET: EventPeople
         string baseUrl = "http://193.10.202.81/BookingService/";
         string baseUrlEvent = "http://193.10.202.77/EventService/";
+        [Authorize]
         public async Task<ActionResult> Index()
         {
 
@@ -47,6 +48,7 @@ namespace BookingAdminPage.Controllers
             }
 
         }
+        [Authorize]
         public async Task<ActionResult> People(int id)
         {
             try
@@ -86,6 +88,7 @@ namespace BookingAdminPage.Controllers
             }
 
         }
+        [Authorize]
         public async Task<ActionResult> SpecificEvent(int id)
         {
             try
@@ -125,6 +128,7 @@ namespace BookingAdminPage.Controllers
             }
 
         }
+        [Authorize]
         public async Task<ActionResult> Event()
         {
             List<EventModell> allEventsList = new List<EventModell>();
