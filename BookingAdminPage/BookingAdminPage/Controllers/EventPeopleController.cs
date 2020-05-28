@@ -123,7 +123,7 @@ namespace BookingAdminPage.Controllers
 
                         if(tempList != null)
                         {
-                            
+                            EventInfo.AddRange(tempList);
                         }
                     }
 
