@@ -95,7 +95,7 @@ namespace BookingService.Controllers
                         Event_Start_Datetime = tempEvent.Event_Start_Datetime,
                         Event_End_Datetime = tempEvent.Event_End_Datetime,
                         User_Id = userId,
-                        User_Name = "",
+                        User_Name = userId.ToString(),
                         User_Type = userType
                     });
                 }
@@ -169,7 +169,7 @@ namespace BookingService.Controllers
                         Event_Start_Datetime = tempEvent.Event_Start_Datetime,
                         Event_End_Datetime = tempEvent.Event_End_Datetime,
                         User_Id = user,
-                        User_Name = "",
+                        User_Name = user.ToString(),
                         User_Type = userType
                     });
                 }
@@ -244,7 +244,7 @@ namespace BookingService.Controllers
                         Event_Start_Datetime = tempEvent.Event_Start_Datetime,
                         Event_End_Datetime = tempEvent.Event_End_Datetime,
                         User_Id = user,
-                        User_Name = "",
+                        User_Name = user.ToString(),
                         User_Type = userType
                     });
                 }
@@ -320,7 +320,7 @@ namespace BookingService.Controllers
                         Event_Start_Datetime = tempEvent.Event_Start_Datetime,
                         Event_End_Datetime = tempEvent.Event_End_Datetime,
                         User_Id = uId,
-                        User_Name = "",
+                        User_Name = uId.ToString(),
                         User_Type = userType
                     });
                 }
@@ -370,7 +370,7 @@ namespace BookingService.Controllers
             }
             else
             {
-                resBookings.User_Name = "";
+                resBookings.User_Name = bookings.User_Id.ToString();
             }
             resBookings.User_Type = bookings.User_Type;
 
