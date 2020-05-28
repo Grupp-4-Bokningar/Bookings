@@ -1,4 +1,4 @@
-﻿@model List<BookingAdminPage.Models.AdminDataModell>
+﻿@model List<BookingAdminPage.Models.User>
 @{
     ViewBag.Title = "Index";
 }
@@ -7,9 +7,9 @@
 
 <div>
     <ul>
-        @foreach (var item in Model)
+        @foreach (var item  in Model)
         {
-            <li> @Html.ActionLink(item.User_Name, "People", new { id=item.User_Id})</li>
+            <li> @Html.ActionLink(item.Firstname + " " + item.Lastname, "People", new { Id = item.Id})</li>
         }
     </ul>
 </div>

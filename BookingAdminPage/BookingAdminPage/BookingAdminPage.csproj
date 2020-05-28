@@ -162,6 +162,7 @@
     <Compile Include="Models\Credentials.cs" />
     <Compile Include="Models\CredentialsRecived.cs" />
     <Compile Include="Models\EventModell.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
