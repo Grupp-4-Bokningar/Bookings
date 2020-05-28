@@ -8,11 +8,11 @@ namespace SubscriptionService.Models
     public partial class SubscriptionModel : DbContext
     {
         public SubscriptionModel()
-            : base("name=SubscriptionModel")
+            : base("name=SubscriptionModel2")
         {
         }
 
-        public virtual DbSet<Subscriptions> Subscriptions { get; set; }
+        public virtual DbSet<subscription> subscriptions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

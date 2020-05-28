@@ -6,13 +6,14 @@ namespace SubscriptionService.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Subscriptions
+    [Table("subscription")]
+    public partial class subscription
     {
         [Key]
-        public int Subscription_Id { get; set; }
+        public int subscription_Id { get; set; }
 
-        public int User_Id { get; set; }
+        public int user_Id { get; set; }
 
-        public int Event_Location_Id { get; set; }
+        public int event_location_Id { get; set; }
     }
 }
