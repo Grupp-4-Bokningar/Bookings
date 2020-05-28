@@ -111,3 +111,10 @@ a.navbar-brand {
 .card-link-text {
     color: black;
 }
+input[type=text], input[type=password]{
+    width:100%;
+    height:35px;
+    display:block;
+    border-radius: 10px 10px;
+   
+}

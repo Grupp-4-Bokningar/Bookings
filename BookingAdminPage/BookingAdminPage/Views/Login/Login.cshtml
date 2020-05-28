@@ -12,12 +12,12 @@
         @Html.Display(Request.QueryString["ReturnUrl"]);
         <div class="form-group form-group-lg">
             <label>Användarnamn</label>
-            @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "border-control" } })
         </div>
 
         <div class="form-group form-group-lg">
             <label>Lösenord</label>
-            @Html.PasswordFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.PasswordFor(model => model.password, new { htmlAttributes = new { @class = "border-control" } })
         </div>
 
         <div class="col-md-offset-2 col-md-10">
