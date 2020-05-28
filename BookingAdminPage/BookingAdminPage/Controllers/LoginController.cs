@@ -18,7 +18,6 @@ namespace BookingAdminPage.Controllers
     {
         string baseUrl = "http://193.10.202.76/";
         // GET: Login
-        [HttpPost]
         public async Task<bool> CheckLogin([Bind(Include = "Id,username,password,permission")] CredentialsRecived creds)
         {
             if (ModelState.IsValid)
@@ -67,7 +66,7 @@ namespace BookingAdminPage.Controllers
             cr.username = model.username;
             cr.password = model.password;
             cr.password = "bookingadmin";
-            return CheckLogin(cr)/*(model.username == "test" && model.password == "test")*/;
+            return CheckLogin(cr).Result/*(model.username == "test" && model.password == "test")*/;
         }
     }
 }
