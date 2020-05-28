@@ -11,6 +11,7 @@
     </h2>
     break;
 }
+<h3>Besökare</h3>
 <table class="table table-striped">
     <tr>
         <th>
@@ -21,6 +22,9 @@
         </th>
         <th>
             Användar ID
+        </th>
+        <th>
+            Användarens namn
         </th>
         <th>
             Eventroll
@@ -35,26 +39,91 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(m => item.Event_Id)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.Event_Name)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.User_Id)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.User_Type)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.Event_Start_Datetime)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.Event_End_Datetime)
-            </td>
-        </tr>
+        if (item.User_Type == "Besökare")
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Event_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Event_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.User_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.User_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.User_Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Event_Start_Datetime)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Event_End_Datetime)
+                </td>
+            </tr>
+        }
+
+    }
+</table>
+<h3>Volontärer</h3>
+<table class="table table-striped">
+   
+    <tr>
+        <th>
+            Event ID
+        </th>
+        <th>
+            Event namn
+        </th>
+        <th>
+            Användar ID
+        </th>
+        <th>
+            Användarens namn
+        </th>
+        <th>
+            Eventroll
+        <th>
+            Starttid
+
+        </th>
+        <th>
+            Sluttid
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.User_Type == "Volontär")
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Event_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Event_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.User_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.User_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.User_Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Event_Start_Datetime)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Event_End_Datetime)
+                </td>
+            </tr>
+        }
+
     }
 </table>
 @Html.ActionLink("Tillbaka", "Event", "EventPeople")
