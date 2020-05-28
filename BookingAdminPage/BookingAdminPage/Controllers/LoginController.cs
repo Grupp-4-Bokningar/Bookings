@@ -65,7 +65,7 @@ namespace BookingAdminPage.Controllers
             cr.Id = 0;
             cr.username = model.username;
             cr.password = model.password;
-            cr.password = "bookingadmin";
+            cr.permission = "bookingadmin";
             return CheckLogin(cr).Result/*(model.username == "test" && model.password == "test")*/;
         }
     }
