@@ -8,6 +8,7 @@
 
 @using (Html.BeginForm("Login", "Login", new { ReturnUrl = Request.QueryString["ReturnUrl"] }))
 {
+
     <div class="form-horizontal">
         @Html.Display(Request.QueryString["ReturnUrl"]);
         <div class="form-group form-group-lg">
@@ -23,6 +24,15 @@
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Logga in" class="btn btn-info" /> | @Html.ActionLink("Tillbaka", "Index")
         </div>
+		
+		@{if (@ViewBag.LogginFailed == true)
+        {
+            <p style="color: red">Inloggningen misslyckades bror. Försök igen!</p>
+        }
 
-    </div>
+      }
+
+
+
+</div>
 }

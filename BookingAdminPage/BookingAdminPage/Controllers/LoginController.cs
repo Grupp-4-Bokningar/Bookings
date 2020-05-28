@@ -26,7 +26,7 @@ namespace BookingAdminPage.Controllers
                 {
                     client.BaseAddress = new Uri(baseUrl);
 
-                    var response = await client.PostAsJsonAsync("api/bookinglogin", creds);
+                    var response = client.PostAsJsonAsync("api/bookinglogin/", creds).Result;
                     if (response.IsSuccessStatusCode)
                     {
                         return true;
@@ -41,6 +41,7 @@ namespace BookingAdminPage.Controllers
         }
         public ActionResult Login()
         {
+            ViewBag.LogginFailed = false;
             return View();
         }
         [HttpPost]
@@ -54,6 +55,7 @@ namespace BookingAdminPage.Controllers
             }
             else
             {
+                ViewBag.LogginFailed = true;
                 return View(model);
             }
         }
