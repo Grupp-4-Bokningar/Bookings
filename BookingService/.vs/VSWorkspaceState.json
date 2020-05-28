@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\BookingService",
-    "\\BookingService\\Controllers"
+    "\\BookingService\\Controllers",
+    "\\BookingService\\Views",
+    "\\BookingService\\Views\\Home"
   ],
-  "SelectedNode": "\\BookingService\\Controllers\\BookingsController.cs",
   "PreviewInSolutionExplorer": false
 }
