@@ -18,12 +18,14 @@ using BookingService.Models;
 using Newtonsoft.Json;
 using RouteAttribute = System.Web.Http.RouteAttribute;
 using RoutePrefixAttribute = System.Web.Http.RoutePrefixAttribute;
+using NLog;
 
 namespace BookingService.Controllers
 {
     [RoutePrefix("api/Bookings")]//Grund urlen
     public class BookingsController : ApiController
     {
+        public readonly Logger log = NLog.LogManager.GetCurrentClassLogger();
         private BookingModel db = new BookingModel();
         string baseURLEvent = "http://193.10.202.77/EventService/api/";
         string baseUrlLogin = "http://193.10.202.76/api/";
