@@ -46,17 +46,18 @@ namespace BookingAdminPage.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(Credentials model, string ReturnUrl)
+        public ActionResult Login(Credentials model/*, string ReturnUrl*/)
         {
             //buggfix om man öppnar Login/Login
-            if (ReturnUrl == null) {
-                ReturnUrl = "";
-            }
+            //if (ReturnUrl == null) {
+            //    ReturnUrl = "";
+            //}
             //if else om loginnen lyckas eller ej
             if (IsValid(model))
             {
                 FormsAuthentication.SetAuthCookie(model.username, false);
-                return Redirect(ReturnUrl);
+                //return Redirect(ReturnUrl);
+                return View();
             }
             else
             {
