@@ -20,51 +20,51 @@ using RoutePrefixAttribute = System.Web.Http.RoutePrefixAttribute;
 
 namespace SubscriptionService.Controllers
 {
-    [RoutePrefix("api/subscriptions")]
+    [RoutePrefix("api/subscriptions")]  //standard route, kommer alltid före vanlig route. 
     public class subscriptionsController : ApiController
     {
-        string baseURLEvent = "193.10.202.77/EventService/api/";
-        private SubscriptionModel db = new SubscriptionModel();
+        string baseURLEvent = "193.10.202.77/EventService/api/"; //event URL
+        private SubscriptionModel db = new SubscriptionModel(); //Databas för prenumerationer.
 
 
         //GET: All for one user
         [Route("/user/{uid:int}")]
         public List<EventModell> GetSubscriptionsFromUser(int uid)
         {
-            List<EventModell> eventList = new List<EventModell>();
+            List<EventModell> eventList = new List<EventModell>(); //lista med event
 
 
-            var sql = db.subscriptions.Where(u => u.user_Id == uid).Select(u => u.subscription_Id).ToArray();
+            var sql = db.subscriptions.Where(u => u.user_Id == uid).Select(u => u.subscription_Id).ToArray(); //hämtar id från databas där user_Id=uid från inparameter
 
-            for (var i = 0; i < sql.Count(); i++)
+            for (var i = 0; i < sql.Count(); i++) //loopar igenom för att lägga till 
             {
                 var temp = sql[i];
 
                 try
                 {
-                    eventList.Add(GetEvent(db.subscriptions.Where(s => s.subscription_Id == temp).Select(s => s.event_location_Id).FirstOrDefault()).Result);
+                    eventList.Add(GetEvent(db.subscriptions.Where(s => s.subscription_Id == temp).Select(s => s.event_location_Id).FirstOrDefault()).Result); //andropar GetEvent som hämtar event från eventAPI
                 }
                 catch (InvalidOperationException e)
                 {
-                    //Lägg in loggning här.
-                    Console.Write(e);
+                    //TODO Lägg in loggning här.
+                    Console.Write(e); //loggar exception så länge. 
                 }
             }
 
             return eventList; //returnerar lista med event där det endast finns event som är kopplad till användare.
         }
-
-        private async Task<EventModell> GetEvent(int id)
+         
+        private async Task<EventModell> GetEvent(int id) //Hämtar event från Event API. 
         {
             EventModell eventObj = new EventModell();
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(baseURLEvent);
+                client.BaseAddress = new Uri(baseURLEvent); //193.10.202.77/EventService/api/
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage res = client.GetAsync("Events/" + id).Result; //lägg till när det finns ett api just för event
 
-                if (res.IsSuccessStatusCode)
+                if (res.IsSuccessStatusCode) //
                 {
                     var respons = res.Content.ReadAsStringAsync().Result;
                     eventObj = JsonConvert.DeserializeObject<EventModell>(respons);
@@ -77,7 +77,7 @@ namespace SubscriptionService.Controllers
         // GET: api/subscriptions/5
 
         [ResponseType(typeof(subscription))]
-        public IHttpActionResult Getsubscription(int id)
+        public IHttpActionResult Getsubscription(int id) //Hämtar prenumerattioner med id
         {
             subscription subscription = db.subscriptions.Find(id);
             if (subscription == null)
@@ -139,7 +139,7 @@ namespace SubscriptionService.Controllers
         }
 
         // DELETE: api/subscriptions/5
-        [ResponseType(typeof(subscription))]
+        [Route("/delete/{uid:int}")]  //tar bort ett event
         public IHttpActionResult Deletesubscription(int id)
         {
             subscription subscription = db.subscriptions.Find(id);
