@@ -17,12 +17,17 @@ using System.Web.UI;
 using Newtonsoft.Json;
 using RouteAttribute = System.Web.Http.RouteAttribute;
 using RoutePrefixAttribute = System.Web.Http.RoutePrefixAttribute;
+using NLog;
+
 
 namespace SubscriptionService.Controllers
 {
+    
+
     [RoutePrefix("api/subscriptions")]  //standard route, kommer alltid före vanlig route. 
     public class subscriptionsController : ApiController
     {
+        public readonly Logger logger = NLog.LogManager.GetCurrentClassLogger();
         string baseURLEvent = "http://193.10.202.77/EventService/"; //baseURL för event
         private SubscriptionModel db = new SubscriptionModel(); //skapar ny databasmodell.
 
@@ -45,6 +50,7 @@ namespace SubscriptionService.Controllers
                 }
                 catch (InvalidOperationException e)
                 {
+                    logger.Error(e);
                     //TODO Lägg in loggning här.
                     Console.Write(e); //loggar exception så länge. 
                 }
@@ -73,14 +79,18 @@ namespace SubscriptionService.Controllers
                         user_Id = User_Id,
                         event_location_Id = Event_Location_Id
                     });
+                    
                 }
                 catch (InvalidOperationException e)
                 {
+
+                    logger.Error(e);
                     //Lägg in loggning här.
                     Console.Write(e);
                 }
+                logger.Info("Succesfull");
             }
-
+            
             return subsList; //returnerar lista med event där det endast finns event som är kopplad till användare.
         }
 
@@ -144,12 +154,15 @@ namespace SubscriptionService.Controllers
             {
                 if (!subscriptionExists(id))
                 {
+                    logger.Warn("Prenumerationen existerar inte");
+                    
                     return NotFound();
                 }
                 else
                 {
                     throw;
                 }
+                
             }
 
             return StatusCode(HttpStatusCode.NoContent);

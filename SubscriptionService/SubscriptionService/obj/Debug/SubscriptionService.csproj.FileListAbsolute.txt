@@ -170,3 +170,6 @@ C:\Users\Victor\Documents\GitHub\Bookings\SubscriptionService\SubscriptionServic
 C:\Users\Victor\Documents\GitHub\Bookings\SubscriptionService\SubscriptionService\bin\Antlr3.Runtime.pdb
 C:\Users\Victor\Documents\GitHub\Bookings\SubscriptionService\SubscriptionService\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Victor\Documents\GitHub\Bookings\SubscriptionService\SubscriptionService\obj\Debug\SubscriptionService.csproj.CopyComplete
+C:\Users\mauro\OneDrive\Dokument\GitHub\Bookings\SubscriptionService\SubscriptionService\bin\NLog.config
+C:\Users\mauro\OneDrive\Dokument\GitHub\Bookings\SubscriptionService\SubscriptionService\bin\NLog.dll
+C:\Users\mauro\OneDrive\Dokument\GitHub\Bookings\SubscriptionService\SubscriptionService\bin\NLog.xml
