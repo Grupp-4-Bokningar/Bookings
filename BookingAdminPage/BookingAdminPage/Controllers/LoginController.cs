@@ -51,7 +51,7 @@ namespace BookingAdminPage.Controllers
             //buggfix om man öppnar Login/Login
             if (ReturnUrl == null)
             {
-                ReturnUrl = "";
+                ReturnUrl = " ";
             }
             //if else om loginnen lyckas eller ej
             if (IsValid(model))
