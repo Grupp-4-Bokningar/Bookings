@@ -27,12 +27,11 @@ namespace SubscriptionService.Controllers
         private SubscriptionModel db = new SubscriptionModel(); //skapar ny databasmodell.
 
 
-        //GET: All for one user, kopplad till event så att retturvvärdcet är en list<> med event.
+        //GET: All for one user, kopplad till event så att returvvärdcet är en list<> med event.
         [Route("user/{uid:int}")]
         public List<EventModell> GetEventSubscriptionsFromUser(int uid)
         {
             List<EventModell> eventList = new List<EventModell>(); //lista med event
-
 
             var sql = db.subscriptions.Where(u => u.user_Id == uid).Select(u => u.subscription_Id).ToArray(); //hämtar id från databas där user_Id=uid från inparameter
 
@@ -42,7 +41,7 @@ namespace SubscriptionService.Controllers
 
                 try
                 {
-                    eventList.Add(GetEvent(db.subscriptions.Where(s => s.subscription_Id == temp).Select(s => s.event_location_Id).FirstOrDefault()).Result); //andropar GetEvent som hämtar event från eventAPI
+                    eventList.AddRange(GetEvent(db.subscriptions.Where(s => s.subscription_Id == temp).Select(s => s.event_location_Id).FirstOrDefault()).Result); //andropar GetEvent som hämtar event från eventAPI
                 }
                 catch (InvalidOperationException e)
                 {
@@ -54,7 +53,7 @@ namespace SubscriptionService.Controllers
             return eventList; //returnerar lista med event där det endast finns event som är kopplad till användare.
         }
         // Hämtar alla subscriptions från en användare. Ej kopplad till Event. Endast avsedd för Admin
-        [Route("/admin/subscription/{uid:int}")]
+        [Route("admin/subscription/{uid:int}")]
         public List<subscription> GetSubscriptionsFromUserForAdmin(int uid)  
         {
             List<subscription> subsList = new List<subscription>();
@@ -90,7 +89,7 @@ namespace SubscriptionService.Controllers
             List<EventModell> eventObj = new List <EventModell>();
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(baseURLEvent); //193.10.202.77/EventService/api/
+                client.BaseAddress = new Uri(baseURLEvent); //193.10.202.77/EventService
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage res = client.GetAsync("api/Events/Place/" + id).Result; //lägg till när det finns ett api just för event
@@ -107,7 +106,7 @@ namespace SubscriptionService.Controllers
         }
 
         // GET: api/subscriptions/5
-        [Route("/{id:int}")]
+        [Route("{id:int}")]
         [ResponseType(typeof(subscription))]
         public IHttpActionResult Getsubscription(int id) //Hämtar prenumerationer med id
         {
@@ -121,7 +120,7 @@ namespace SubscriptionService.Controllers
         }
 
         // PUT: api/subscriptions/5
-        [Route("/{id:int}")]
+        [Route("{id:int}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult Putsubscription(int id, subscription subscription)  //genererad. 
         {
@@ -173,7 +172,7 @@ namespace SubscriptionService.Controllers
         }
 
         // DELETE: api/subscriptions/delete/{1}/event/{2}
-        [Route("/delete/{sId:int}/event/{eId:int}")]  //tar bort ett event med inparametrar user_id och Event_location_ID
+        [Route("delete/{sId:int}/event/{eId:int}")]  //tar bort ett event med inparametrar user_id och Event_location_ID
         public IHttpActionResult Deletesubscription(int uid, int eId)
         {
             int temp = db.subscriptions.Where(u => u.user_Id == uid).Where(u => u.event_location_Id == eId).Select(u => u.subscription_Id).FirstOrDefault(); // Letar i databas med imparametrar.
