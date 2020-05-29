@@ -49,7 +49,8 @@ namespace BookingAdminPage.Controllers
         public ActionResult Login(Credentials model, string ReturnUrl)
         {
             //buggfix om man öppnar Login/Login
-            if (ReturnUrl == null) {
+            if (ReturnUrl == null)
+            {
                 ReturnUrl = "";
             }
             //if else om loginnen lyckas eller ej
@@ -73,7 +74,7 @@ namespace BookingAdminPage.Controllers
             cr.username = model.username;
             cr.password = model.password;
             cr.permission = "bookingadmin";
-            return CheckLogin(cr).Result/*(model.username == "test" && model.password == "test")*/;
+            return CheckLogin(cr).Result;
         }
     }
 }
