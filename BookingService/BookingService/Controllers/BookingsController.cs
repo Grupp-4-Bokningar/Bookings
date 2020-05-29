@@ -396,23 +396,32 @@ namespace BookingService.Controllers
                 return BadRequest();
             }
 
-            // Skulle behöva felhantering av dubbellagring.
-            try
+            //Felhantering för dubbellagring
+
+            var temp = db.Bookings.Where(s => s.Event_Id == bookings.Event_Id).Where(s => s.User_Id == bookings.User_Id)
+                            .Where(s => s.Booking_Id != bookings.Booking_Id).Select(s => s.Booking_Id).ToArray();
+
+            if(temp.Count() < 1)
             {
-                db.Entry(bookings).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BookingsExists(id))
+                try
                 {
-                    return NotFound();
+                    db.Entry(bookings).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!BookingsExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
+
+            
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -430,10 +439,23 @@ namespace BookingService.Controllers
                     return BadRequest(ModelState);
                 }
 
+                
+                //Event id & userID får inte finnas någon annan stans.
+                var temp = db.Bookings.Where(s => s.Event_Id == bookings.Event_Id).Where(s => s.User_Id == bookings.User_Id)
+                            .Where(s => s.Booking_Id != bookings.Booking_Id).Select(s => s.Booking_Id).ToArray();
 
-                db.Bookings.Add(bookings);
-                db.SaveChanges();
-                return CreatedAtRoute("DefaultApi", new { id = bookings.Booking_Id }, bookings);
+                if(temp.Count() < 1)
+                {
+                    db.Bookings.Add(bookings);
+                    db.SaveChanges();
+                    return Ok(bookings);
+                }
+                else
+                {
+                    return BadRequest("Användaren finns redan på eventet");
+                }
+
+                
                 
                 
             }
