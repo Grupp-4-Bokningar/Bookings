@@ -1,0 +1,7 @@
+------Info(2020-05-29 14:34:31.7337)DESKTOP-T84V6TI------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Subscription kunde inte ändras, anledning: Finns redan i db
+
