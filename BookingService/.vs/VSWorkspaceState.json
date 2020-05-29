@@ -2,12 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\BookingService",
+    "\\BookingService\\bin\\roslyn",
     "\\BookingService\\Controllers",
     "\\BookingService\\Models",
     "\\BookingService\\obj",
     "\\BookingService\\Views",
     "\\BookingService\\Views\\Home"
   ],
-  "SelectedNode": "\\BookingService\\Controllers\\BookingsController.cs",
+  "SelectedNode": "\\BookingService\\bin",
   "PreviewInSolutionExplorer": false
 }
