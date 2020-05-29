@@ -52,14 +52,14 @@ namespace SubscriptionService.Controllers
 
             return eventList; //returnerar lista med event där det endast finns event som är kopplad till användare.
         }
-        // Hämtar alla subscriptions från en användare. Ej kopplad till Event. Endast avsedd för Admin
-        [Route("admin/subscription/{uid:int}")]
+        // GET: Hämtar alla subscriptions från en användare. Ej kopplad till Event. Endast avsedd för Admin
+        [Route("admin/user/{uid:int}")]
         public List<subscription> GetSubscriptionsFromUserForAdmin(int uid)  
         {
             List<subscription> subsList = new List<subscription>();
 
 
-            var sql = db.subscriptions.Where(u => u.user_Id == uid).Select(u => u.subscription_Id).ToArray(); //Kollar i databas efter event med subscriptions i. Kolalr genom User_id från inparametrar.
+            var sql = db.subscriptions.Where(u => u.user_Id == uid).Select(u => u.subscription_Id).ToArray(); //Kollar i databas efter event med subscriptions i. Kollar genom User_id från inparametrar.
 
             for (var i = 0; i < sql.Count(); i++) //foorloop som lägger till event i en lista.
             {
@@ -160,19 +160,31 @@ namespace SubscriptionService.Controllers
         [ResponseType(typeof(subscription))]
         public IHttpActionResult Postsubscription(subscription subscription)
         {
+            try  //try and catch för längre fram
+            {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.subscriptions.Add(subscription);
-            db.SaveChanges();
+            
+                db.subscriptions.Add(subscription);
+                db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = subscription.subscription_Id }, subscription);
+                    return Ok();
+            
+
         }
+            catch(Exception e) //CATCH så länge
+            {
+                //TODO: Riktig felhantering.
+                Console.Write(e);
+                throw;
+            }
+}
 
-        // DELETE: api/subscriptions/delete/{1}/event/{2}
-        [Route("delete/{sId:int}/event/{eId:int}")]  //tar bort ett event med inparametrar user_id och Event_location_ID
+        // DELETE: api/subscriptions/user/{1}/place/{2}
+        [Route("user/{uId:int}/place/{eId:int}")]  //tar bort ett event med inparametrar user_id och Event_location_ID
         public IHttpActionResult Deletesubscription(int uid, int eId)
         {
             int temp = db.subscriptions.Where(u => u.user_Id == uid).Where(u => u.event_location_Id == eId).Select(u => u.subscription_Id).FirstOrDefault(); // Letar i databas med imparametrar.
