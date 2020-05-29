@@ -23,16 +23,15 @@ namespace SubscriptionService.Controllers
     [RoutePrefix("api/subscriptions")]
     public class subscriptionsController : ApiController
     {
-        string baseURLEvent = "193.10.202.77/EventService/api/";
+        string baseURLEvent = "http://193.10.202.77/EventService/";
         private SubscriptionModel db = new SubscriptionModel();
 
 
         //GET: All for one user
-        [Route("/user/{uid:int}")]
-        public List<EventModell> GetSubscriptionsFromUser(int uid)
+        [Route("user/{uid:int}")]
+        public List<EventModell> GetEventSubscriptionsFromUser(int uid)
         {
             List<EventModell> eventList = new List<EventModell>();
-
 
             var sql = db.subscriptions.Where(u => u.user_Id == uid).Select(u => u.subscription_Id).ToArray();
 
@@ -42,7 +41,8 @@ namespace SubscriptionService.Controllers
 
                 try
                 {
-                    eventList.Add(GetEvent(db.subscriptions.Where(s => s.subscription_Id == temp).Select(s => s.event_location_Id).FirstOrDefault()).Result);
+                    //int placeId = GetEvent(db.subscriptions.Where(s => s.subscription_Id == temp).Select(s => s.event_location_Id).FirstOrDefault()).Result;
+                    eventList.AddRange(GetEvent(db.subscriptions.Where(s => s.subscription_Id == temp).Select(s => s.event_location_Id).FirstOrDefault()).Result);
                 }
                 catch (InvalidOperationException e)
                 {
@@ -53,21 +53,52 @@ namespace SubscriptionService.Controllers
 
             return eventList; //returnerar lista med event där det endast finns event som är kopplad till användare.
         }
-
-        private async Task<EventModell> GetEvent(int id)
+        [Route("subscription/{uid:int}")]
+        public List<subscription> GetSubscriptionsFromUser(int uid)
         {
-            EventModell eventObj = new EventModell();
+            List<subscription> subsList = new List<subscription>();
+
+
+            var sql = db.subscriptions.Where(u => u.user_Id == uid).Select(u => u.subscription_Id).ToArray();
+
+            for (var i = 0; i < sql.Count(); i++)
+            {
+                var temp = sql[i];
+                int User_Id = db.subscriptions.Where(u => u.subscription_Id == temp).Select(u => u.user_Id).FirstOrDefault();
+                int Event_Location_Id = db.subscriptions.Where(u => u.subscription_Id == temp).Select(u => u.event_location_Id).FirstOrDefault();
+                try
+                {
+                    subsList.Add(new subscription {
+                        subscription_Id = temp,
+                        user_Id = User_Id,
+                        event_location_Id = Event_Location_Id
+                    });
+                }
+                catch (InvalidOperationException e)
+                {
+                    //Lägg in loggning här.
+                    Console.Write(e);
+                }
+            }
+
+            return subsList; //returnerar lista med event där det endast finns event som är kopplad till användare.
+        }
+
+        private async Task <List<EventModell>> GetEvent(int id)
+        {
+            List<EventModell> eventObj = new List <EventModell>();
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(baseURLEvent);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage res = client.GetAsync("Events/" + id).Result; //lägg till när det finns ett api just för event
+                HttpResponseMessage res = client.GetAsync("api/Events/Place/" + id).Result; //lägg till när det finns ett api just för event
 
                 if (res.IsSuccessStatusCode)
                 {
                     var respons = res.Content.ReadAsStringAsync().Result;
-                    eventObj = JsonConvert.DeserializeObject<EventModell>(respons);
+                    eventObj = JsonConvert.DeserializeObject<List<EventModell>>(respons);
+                    
                     return eventObj;
                 }
             }
@@ -75,7 +106,7 @@ namespace SubscriptionService.Controllers
         }
 
         // GET: api/subscriptions/5
-
+        [Route("/{id:int}")]
         [ResponseType(typeof(subscription))]
         public IHttpActionResult Getsubscription(int id)
         {
@@ -89,6 +120,7 @@ namespace SubscriptionService.Controllers
         }
 
         // PUT: api/subscriptions/5
+        [Route("/{id:int}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult Putsubscription(int id, subscription subscription)
         {
@@ -124,6 +156,7 @@ namespace SubscriptionService.Controllers
         }
 
         // POST: api/subscriptions
+        [Route("")]
         [ResponseType(typeof(subscription))]
         public IHttpActionResult Postsubscription(subscription subscription)
         {

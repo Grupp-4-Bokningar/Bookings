@@ -170,6 +170,9 @@
     </Compile>
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\EventModell.cs" />
+    <Compile Include="Models\Event_Facility.cs" />
+    <Compile Include="Models\Event_Organizer.cs" />
+    <Compile Include="Models\Place.cs" />
     <Compile Include="Models\subscription.cs" />
     <Compile Include="Models\SubscriptionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
