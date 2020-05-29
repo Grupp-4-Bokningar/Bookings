@@ -430,20 +430,10 @@ namespace BookingService.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var temp = db.Bookings.Where(e => e.Event_Id == bookings.Event_Id).Where(u => u.User_Id == bookings.User_Id); //Kollar så det inte redan finns i databasen
+               
 
-                if(temp == null)
-                {
-                    db.Bookings.Add(bookings);
-                    db.SaveChanges();
-
-                    return CreatedAtRoute("DefaultApi", new { id = bookings.Booking_Id }, bookings);
-                }
-                else //Om användaren redan finns på eventet så skickas ett error meddellande tillbaks.
-                {
-                    return BadRequest("Du är redan anmäld på detta event.");
-                }
-
+                return CreatedAtRoute("DefaultApi", new { id = bookings.Booking_Id }, bookings);
+                
                 
             }
             catch(Exception e)
