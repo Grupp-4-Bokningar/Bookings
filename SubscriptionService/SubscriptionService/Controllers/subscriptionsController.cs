@@ -74,19 +74,7 @@ namespace SubscriptionService.Controllers
             return eventObj;
         }
 
-        // GET: api/subscriptions/5
-
-        [ResponseType(typeof(subscription))]
-        public IHttpActionResult Getsubscription(int id) //Hämtar prenumerattioner med id
-        {
-            subscription subscription = db.subscriptions.Find(id);
-            if (subscription == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(subscription);
-        }
+ 
 
         // PUT: api/subscriptions/5
         [ResponseType(typeof(void))]
@@ -138,18 +126,21 @@ namespace SubscriptionService.Controllers
             return CreatedAtRoute("DefaultApi", new { id = subscription.subscription_Id }, subscription);
         }
 
-        // DELETE: api/subscriptions/5
-        [Route("/delete/{uid:int}")]  //tar bort ett event
-        public IHttpActionResult Deletesubscription(int id)
+        // DELETE: api/subscriptions/delete/{1}/event/{2}
+        [Route("/delete/{sId:int}/event/{eId:int}")]  //tar bort ett event med inparametrar user_id och Event_location_ID
+        public IHttpActionResult Deletesubscription(int uid, int eId)
         {
-            subscription subscription = db.subscriptions.Find(id);
-            if (subscription == null)
+            int temp = db.subscriptions.Where(u => u.user_Id == uid).Where(u => u.event_location_Id == eId).Select(u => u.subscription_Id).FirstOrDefault(); // Letar i databas med imparametrar.
+            subscription subscription = db.subscriptions.Find(temp); //skapar objekt av subscription.cs -- model
+
+            if (subscription == null) //hittas inte eventet returnas noll, 
             {
+                // TODO Riktig felhantering.
                 return NotFound();
             }
 
-            db.subscriptions.Remove(subscription);
-            db.SaveChanges();
+            db.subscriptions.Remove(subscription); //tar bort objekt subscription från databas. 
+            db.SaveChanges(); //sparar ändringar
 
             return Ok(subscription);
         }
