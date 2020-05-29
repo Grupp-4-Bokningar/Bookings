@@ -10,7 +10,7 @@
 {
 
     <div class="form-horizontal">
-        @Html.Display(Request.QueryString["ReturnUrl"]);
+        @Html.Display(Request.QueryString["ReturnUrl"])
         <div class="form-group form-group-lg">
             <label>Användarnamn</label>
             @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "border-control" } })
@@ -22,7 +22,7 @@
         </div>
 
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Logga in" class="btn btn-info" /> | @Html.ActionLink("Tillbaka", "Index")
+            <input type="submit" value="Logga in" class="btn btn-info" />
         </div>
 		
 		@{if (@ViewBag.LogginFailed == true)
