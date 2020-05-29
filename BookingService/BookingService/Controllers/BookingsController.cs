@@ -430,8 +430,9 @@ namespace BookingService.Controllers
                     return BadRequest(ModelState);
                 }
 
-               
 
+                db.Bookings.Add(bookings);
+                db.SaveChanges();
                 return CreatedAtRoute("DefaultApi", new { id = bookings.Booking_Id }, bookings);
                 
                 
