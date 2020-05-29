@@ -35,20 +35,20 @@ namespace BookingService.Controllers
             EventModell tempEvent = new EventModell();
             UserModel tempUser = new UserModel();
 
-            var sql = db.Bookings.Select(s => s.Booking_Id).ToArray();
+            var sql = db.Bookings.Select(s => s.Booking_Id).ToArray(); //Hämtar alla ID från alla rader.
             string userType;
             int eventId;
-            for (var i = 0; i < sql.Count(); i++)
+            for (var i = 0; i < sql.Count(); i++) //Kör forloopen så många gånger som rader det finns i databasen
             {
                 var temp = sql[i];
-                int userId = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
+                int userId = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault(); //Hämtar användar ID för första raden.
 
                 try
                 {
-                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
-                    tempUser = GetUser(userId).Result;
+                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result; //Hämtar information från event tjänsten utefter eventID på raden.
+                    tempUser = GetUser(userId).Result; //Hämtar användar ID från logintjänsten utefter användarID från databasen
                 }
-                catch(InvalidOperationException e)
+                catch(InvalidOperationException e) //Ifall tjänsterna inte funkar så hämtas enbart ID från databasen och returneras
                 {
                     //Lägg in loggning här.
                     for(var t = 0; t < sql.Count(); t++)
@@ -73,7 +73,7 @@ namespace BookingService.Controllers
 
                 if (tempUser != null)
                 {
-                    bookingList.Add(new BookingModell
+                    bookingList.Add(new BookingModell //Sparar ner alla värden i en lista
                     {
                         Booking_Id = temp,
                         Event_Id = tempEvent.Event_Id,
@@ -87,7 +87,7 @@ namespace BookingService.Controllers
                 }
                 else
                 {
-                    bookingList.Add(new BookingModell
+                    bookingList.Add(new BookingModell //Temporär felhantering då användaren inte finns i användardatabasen men i våran.
                     {
                         Booking_Id = temp,
                         Event_Id = tempEvent.Event_Id,
@@ -112,9 +112,9 @@ namespace BookingService.Controllers
             EventModell tempEvent = new EventModell();
             UserModel tempUser = new UserModel();
 
-            var sql = db.Bookings.Where(b => b.User_Type == "Besökare").Where(s => s.Event_Id == eId).Select(s => s.Booking_Id).ToArray();
+            var sql = db.Bookings.Where(b => b.User_Type == "Besökare").Where(s => s.Event_Id == eId).Select(s => s.Booking_Id).ToArray(); //Hämtar ID från alla rader som finns för alla besökare på ett specifikt event
 
-            for(var i = 0; i < sql.Count(); i++)
+            for(var i = 0; i < sql.Count(); i++) 
             {
                 var temp = sql[i];
                 int user = db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.User_Id).FirstOrDefault();
@@ -122,8 +122,8 @@ namespace BookingService.Controllers
 
                 try
                 {
-                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
-                    tempUser = GetUser(user).Result;
+                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result; //Hämtar  eventinfo
+                    tempUser = GetUser(user).Result; //Hämtar användar info
                 }
                 catch (InvalidOperationException e)
                 {
@@ -188,7 +188,8 @@ namespace BookingService.Controllers
             EventModell tempEvent = new EventModell();
             UserModel tempUser = new UserModel();
 
-            var sql = db.Bookings.Where(b => b.User_Type == "Volontär").Where(s => s.Event_Id == eId).Select(s => s.Booking_Id).ToArray();
+            var sql = db.Bookings.Where(b => b.User_Type == "Volontär").Where(s => s.Event_Id == eId).Select(s => s.Booking_Id).ToArray(); //Hämtar ID från alla rader som finns för alla volontärer på ett specifikt event
+
 
             for (var i = 0; i < sql.Count(); i++)
             {
@@ -198,8 +199,8 @@ namespace BookingService.Controllers
 
                 try
                 {
-                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
-                    tempUser = GetUser(user).Result;
+                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result; //Hämtar eventinfo
+                    tempUser = GetUser(user).Result; //Hämtar användar info
                 }
                 catch (InvalidOperationException e)
                 {
@@ -264,7 +265,7 @@ namespace BookingService.Controllers
             EventModell tempEvent = new EventModell();
             UserModel tempUser = new UserModel();
 
-            var sql = db.Bookings.Where(u => u.User_Id == uId).Select(u => u.Booking_Id).ToArray();
+            var sql = db.Bookings.Where(u => u.User_Id == uId).Select(u => u.Booking_Id).ToArray(); //Hämtar bokningsID utefter en specifik användare
             int eventId;
             for(int i = 0; i<sql.Count(); i++)
             {
@@ -274,8 +275,8 @@ namespace BookingService.Controllers
 
                 try
                 {
-                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result;
-                    tempUser = GetUser(uId).Result;
+                    tempEvent = GetEvent(db.Bookings.Where(s => s.Booking_Id == temp).Select(s => s.Event_Id).FirstOrDefault()).Result; //Hämtar evendata
+                    tempUser = GetUser(uId).Result; //Hämta användar data.
                 }
                 catch (InvalidOperationException e)
                 {
@@ -503,7 +504,7 @@ namespace BookingService.Controllers
         {
             return db.Bookings.Count(e => e.Booking_Id == id) > 0;
         }
-        private async Task<EventModell> GetEvent(int id)
+        private async Task<EventModell> GetEvent(int id) //Hämtar ett event från eventjänsten
         {
             EventModell eventObj = new EventModell();
             using (var client = new HttpClient())
@@ -523,7 +524,7 @@ namespace BookingService.Controllers
             
             return eventObj;
         }
-        private async Task<UserModel> GetUser(int id)
+        private async Task<UserModel> GetUser(int id) //Hämtar användare från logintjänsten
         {
             UserModel userObj = new UserModel();
             using (var client = new HttpClient())
