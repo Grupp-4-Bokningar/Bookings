@@ -14,6 +14,7 @@ using System.Net;
 
 namespace BookingAdminPage.Controllers
 {
+
     public class LoginController : Controller
     {
         string baseUrl = "http://193.10.202.76/";
@@ -47,6 +48,10 @@ namespace BookingAdminPage.Controllers
         [HttpPost]
         public ActionResult Login(Credentials model, string ReturnUrl)
         {
+            //buggfix om man öppnar Login/Login
+            if (ReturnUrl == null) {
+                ReturnUrl = "";
+            }
             //if else om loginnen lyckas eller ej
             if (IsValid(model))
             {

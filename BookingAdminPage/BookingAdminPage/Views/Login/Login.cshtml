@@ -8,29 +8,35 @@
 
 @using (Html.BeginForm("Login", "Login", new { ReturnUrl = Request.QueryString["ReturnUrl"] }))
 {
+    //buggfix om man startar sidan ifrån Login/Login
+<div class="form-horizontal">
+    @{
+        if (Request.QueryString["ReturnUrl"] != null)
+        {
+            @Html.Display(Request.QueryString["ReturnUrl"])
+        }
+    }
 
-    <div class="form-horizontal">
-        @Html.Display(Request.QueryString["ReturnUrl"])
-        <div class="form-group form-group-lg">
-            <label>Användarnamn</label>
-            @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "border-control" } })
-        </div>
+    <div class="form-group form-group-lg">
+        <label>Användarnamn</label>
+        @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "border-control" } })
+    </div>
 
-        <div class="form-group form-group-lg">
-            <label>Lösenord</label>
-            @Html.PasswordFor(model => model.password, new { htmlAttributes = new { @class = "border-control" } })
-        </div>
+    <div class="form-group form-group-lg">
+        <label>Lösenord</label>
+        @Html.PasswordFor(model => model.password, new { htmlAttributes = new { @class = "border-control" } })
+    </div>
 
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Logga in" class="btn btn-info" />
-        </div>
-		
-		@{if (@ViewBag.LogginFailed == true)
+    <div class="col-md-offset-2 col-md-10">
+        <input type="submit" value="Logga in" class="btn btn-info" />
+    </div>
+
+    @{if (@ViewBag.LogginFailed == true)
         {
             <p style="color: red">Inloggningen misslyckades bror. Försök igen!</p>
         }
 
-      }
+    }
 
 
 
