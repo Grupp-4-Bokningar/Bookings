@@ -20,7 +20,7 @@ namespace BookingService.Models
 
         public bool? Event_Seeking_Volunteers { get; set; }
 
-        public int? Event_Location_Id { get; set; }
+        public int? Event_Facility_Id { get; set; }
 
         public Category Event_Category { get; set; }
 
