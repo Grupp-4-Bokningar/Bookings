@@ -1,63 +1,7 @@
-------Info(2020-05-29 11:48:31.3284)LAPTOP-37284QRG------
+------Info(2020-05-29 14:34:31.7337)DESKTOP-T84V6TI------
 
                       Exception Type: |
                       Exception Message: |
                       Stack Trace: |
-                      Additional Info:Succesfull
-
-------Info(2020-05-29 11:48:31.9132)LAPTOP-37284QRG------
-
-                      Exception Type: |
-                      Exception Message: |
-                      Stack Trace: |
-                      Additional Info:Succesfull
-
-------Info(2020-05-29 11:48:52.0576)LAPTOP-37284QRG------
-
-                      Exception Type: |
-                      Exception Message: |
-                      Stack Trace: |
-                      Additional Info:Succesfull
-
-------Info(2020-05-29 11:48:52.5648)LAPTOP-37284QRG------
-
-                      Exception Type: |
-                      Exception Message: |
-                      Stack Trace: |
-                      Additional Info:Succesfull
-
-------Info(2020-05-29 11:48:53.0050)LAPTOP-37284QRG------
-
-                      Exception Type: |
-                      Exception Message: |
-                      Stack Trace: |
-                      Additional Info:Succesfull
-
-------Info(2020-05-29 11:48:53.4051)LAPTOP-37284QRG------
-
-                      Exception Type: |
-                      Exception Message: |
-                      Stack Trace: |
-                      Additional Info:Succesfull
-
-------Info(2020-05-29 11:48:53.9529)LAPTOP-37284QRG------
-
-                      Exception Type: |
-                      Exception Message: |
-                      Stack Trace: |
-                      Additional Info:Succesfull
-
-------Info(2020-05-29 11:48:54.4171)LAPTOP-37284QRG------
-
-                      Exception Type: |
-                      Exception Message: |
-                      Stack Trace: |
-                      Additional Info:Succesfull
-
-------Info(2020-05-29 11:48:54.8361)LAPTOP-37284QRG------
-
-                      Exception Type: |
-                      Exception Message: |
-                      Stack Trace: |
-                      Additional Info:Succesfull
+                      Additional Info:Subscription kunde inte ändras, anledning: Finns redan i db
 

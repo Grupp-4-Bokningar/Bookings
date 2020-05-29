@@ -173,3 +173,6 @@ C:\Users\Victor\Documents\GitHub\Bookings\SubscriptionService\SubscriptionServic
 C:\Users\mauro\OneDrive\Dokument\GitHub\Bookings\SubscriptionService\SubscriptionService\bin\NLog.config
 C:\Users\mauro\OneDrive\Dokument\GitHub\Bookings\SubscriptionService\SubscriptionService\bin\NLog.dll
 C:\Users\mauro\OneDrive\Dokument\GitHub\Bookings\SubscriptionService\SubscriptionService\bin\NLog.xml
+C:\Users\Victor\Documents\GitHub\Bookings\SubscriptionService\SubscriptionService\bin\NLog.config
+C:\Users\Victor\Documents\GitHub\Bookings\SubscriptionService\SubscriptionService\bin\NLog.dll
+C:\Users\Victor\Documents\GitHub\Bookings\SubscriptionService\SubscriptionService\bin\NLog.xml

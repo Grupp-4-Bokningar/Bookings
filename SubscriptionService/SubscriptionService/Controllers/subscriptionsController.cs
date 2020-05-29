@@ -141,11 +141,24 @@ namespace SubscriptionService.Controllers
 
             if (id != subscription.subscription_Id)
             {
-                return BadRequest();
+                return BadRequest("Subscription error");
             }
 
-            db.Entry(subscription).State = EntityState.Modified;
 
+            var temp = db.subscriptions.Where(s => s.user_Id == subscription.user_Id).Where(s => s.event_location_Id == subscription.event_location_Id)
+                               .Select(s => s.subscription_Id).ToArray();
+
+            if (temp.Count() < 1) //Finns det färre än 1 i listan, lägg till i databas.
+            {
+                db.Entry(subscription).State = EntityState.Modified;
+                logger.Info("Ändrar subscription i db");
+
+            }
+            else
+            {
+                logger.Info("Subscription kunde inte ändras, anledning: Finns redan i db");
+                return BadRequest("Du ha redan prenumererat på det eventet");
+            }
             try
             {
                 db.SaveChanges();
@@ -179,15 +192,25 @@ namespace SubscriptionService.Controllers
             {
                 return BadRequest(ModelState);
             }
+                var temp = db.subscriptions.Where(s => s.user_Id == subscription.user_Id).Where(s => s.event_location_Id == subscription.event_location_Id)
+                                .Select(s => s.subscription_Id).ToArray();
 
-            
-                db.subscriptions.Add(subscription);
-                db.SaveChanges();
+                if(temp.Count()<1) //Finns det färre än 1 i listan, lägg till i databas.
+                {
+                    db.subscriptions.Add(subscription);
+                    db.SaveChanges();
+                    logger.Info("Lägger till subscription i db");
 
-                    return Ok();
-            
+                } 
+                else
+                {
+                    logger.Info("Subscription kunde inte läggas till, anledning: Finns redan i db");
+                    return BadRequest("Du ha redan prenumererat på det eventet");
+                }
+                return Ok();
 
-        }
+
+            }
             catch(Exception e) //CATCH så länge
             {
                 //TODO: Riktig felhantering.
