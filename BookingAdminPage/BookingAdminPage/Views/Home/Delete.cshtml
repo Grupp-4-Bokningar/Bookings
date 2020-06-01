@@ -1,0 +1,22 @@
+﻿@model BookingAdminPage.Models.BookingModel
+@{
+    ViewBag.Title = "Delete";
+}
+<div>
+    <h2>Radera</h2><br />
+    <h3>Är du säker på att du vill ta bort denna bokning?</h3> <br />
+    <b>Booking ID:</b> @Html.DisplayFor(m => m.Booking_Id) <br />
+    <b>Event ID:</b> @Html.DisplayFor(m => m.Event_Id) <br />
+    <b>User ID:</b> @Html.DisplayFor(m => m.User_Id) <br />
+    <b>User Type:</b> @Html.DisplayFor(m => m.User_Type) <br />
+</div>
+
+@using (Html.BeginForm("Delete", "Home", new { id=Model.Booking_Id}, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Ta bort" class="btn btn-info" /> |
+        @Html.ActionLink("Tillbaka till listan", "Index")
+    </div>
+}

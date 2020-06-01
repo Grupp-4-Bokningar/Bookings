@@ -1,0 +1,71 @@
+﻿@model IEnumerable<BookingAdminPage.Models.AdminDataModell>
+
+@{
+    ViewBag.Title = "People";
+}
+
+<h2>Användarid bokat till Event </h2>
+@foreach(var item in Model)
+{
+    <h2>
+        @Html.DisplayFor(m=>item.User_Name)
+    </h2>
+    <h4>@Html.ActionLink("Skapa ny", "CreateUser", new {id = item.User_Id })</h4>
+    break;
+}
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            Event ID
+        </th>
+        <th>
+            Eventnamn
+        </th>
+        <th>
+            Starttid
+        </th>
+        <th>
+            Sluttid
+        </th>
+        <th>
+            Eventroll
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.Booking_Id != null)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Event_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Event_Start_Datetime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Event_End_Datetime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.User_Type)
+                </td>
+                <td>
+                    @Html.ActionLink("Ändra", "EditEvent", new { id = item.Booking_Id }) |
+                    @Html.ActionLink("Ta bort", "DeleteEvent", new { id = item.Booking_Id })
+                </td>
+            </tr>
+        }
+        else
+        {
+            break;
+        }
+
+    }
+</table>
+@Html.ActionLink("Tillbaka", "index", "EventPeople")
+

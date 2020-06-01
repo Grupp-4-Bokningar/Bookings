@@ -1,7 +1,24 @@
-# Bookings
+# Service-oriented system with REST. C#
+Project for a service-oriented system. We developed 2 service and a adminpage; 
 
-#GIT-commands
+# Content in main
 
+# Bookings - REST
+Bookingservice is for volonteers and attendees to 'book/sign up' themself on a specific event. Admin has CRUD abilities.
+
+# Subscription - REST
+Users can subscribe to specific locations. There is possiblity to show all subscribed events on a users own profile. Altough not in this project. 
+
+# AdminPage, Frontend ASP.NET MVC
+Together with another subproject integrated a REST-API to see events, and be able with our own Booking REST API to 'book' themself on that event. Forms to be able to use CRUD.
+
+# Projectmembers
+1. Felix Persson: brunzt
+2. Hugo Linlycke: hugolinlycke
+3. Mauro Karlsfred: maomoak
+4. Victor Bengtsson: b3ngtsson
+
+# GIT-commands for future
 1. [windows] + [R]. search -> cmd -> [Enter]
 2. cd Desktop #now on Desktop. 
 3. Git clone github.länk. #Download project to Desktop
