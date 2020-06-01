@@ -67,8 +67,8 @@
                     @Html.DisplayFor(m => item.Event_End_Datetime)
                 </td>
                 <td>
-                    @Html.ActionLink("Ändra", "Edit", new { id = item.Booking_Id }) |
-                    @Html.ActionLink("Ta bort", "Delete", new { id = item.Booking_Id })
+                    @Html.ActionLink("Ändra", "EditEvent", new { id = item.Booking_Id }) |
+                    @Html.ActionLink("Ta bort", "DeleteEvent", new { id = item.Booking_Id })
                 </td>
             </tr>
         }
@@ -129,8 +129,8 @@
                     @Html.DisplayFor(m => item.Event_End_Datetime)
                 </td>
                 <td>
-                    @Html.ActionLink("Ändra", "Edit", new { id = item.Booking_Id }) |
-                    @Html.ActionLink("Ta bort", "Delete", new { id = item.Booking_Id })
+                    @Html.ActionLink("Ändra", "EditEvent", new { id = item.Booking_Id }) |
+                    @Html.ActionLink("Ta bort", "DeleteEvent", new { id = item.Booking_Id })
                 </td>
             </tr>
         }

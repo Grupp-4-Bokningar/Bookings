@@ -56,6 +56,7 @@ namespace BookingAdminPage.Controllers
             try
             {
                 List<AdminDataModell> EventInfo = new List<AdminDataModell>();
+                AdminDataModell tempObj = new AdminDataModell();
 
                 using (var client = new HttpClient())
                 {
@@ -79,8 +80,17 @@ namespace BookingAdminPage.Controllers
                         EventInfo = JsonConvert.DeserializeObject<List<AdminDataModell>>(AdminDataModellResponse);
 
                     }
-                    //returning the employee list to view  
-                    return View(EventInfo);
+                    if(EventInfo.Count > 0)
+                    {
+                        //returning the employee list to view  
+                        return View(EventInfo);
+                    }
+                    else
+                    {
+                        tempObj.User_Id = id;
+                        EventInfo.Add(tempObj);
+                        return View(EventInfo);
+                    }
                 }
             }
             catch (Exception)
@@ -334,6 +344,16 @@ namespace BookingAdminPage.Controllers
 
              return View(booking);
            
+        }
+        [Authorize]
+        public ActionResult CreateUser(int id)
+        {
+
+            BookingModel booking = new BookingModel();
+            booking.User_Id = id;
+
+            return View(booking);
+
         }
         [HttpPost]
         public async Task<ActionResult> CreateEvent([Bind(Include = "Event_Id,User_Id,User_Type")] BookingModel booking)
