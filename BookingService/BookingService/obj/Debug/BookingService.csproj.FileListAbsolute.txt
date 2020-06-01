@@ -354,3 +354,6 @@ D:\GAMEDEV\Bookings\BookingService\BookingService\obj\Debug\BookingService.cspro
 D:\GAMEDEV\Bookings\BookingService\BookingService\obj\Debug\BookingService.csproj.CopyComplete
 D:\GAMEDEV\Bookings\BookingService\BookingService\obj\Debug\BookingService.dll
 D:\GAMEDEV\Bookings\BookingService\BookingService\obj\Debug\BookingService.pdb
+D:\GAMEDEV\Bookings\BookingService\BookingService\bin\NLog.config
+D:\GAMEDEV\Bookings\BookingService\BookingService\bin\NLog.dll
+D:\GAMEDEV\Bookings\BookingService\BookingService\bin\NLog.xml
