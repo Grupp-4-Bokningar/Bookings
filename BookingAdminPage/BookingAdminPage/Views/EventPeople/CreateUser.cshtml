@@ -1,14 +1,13 @@
 ﻿@model BookingAdminPage.Models.BookingModel
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
 }
 
-<h2>Ändra</h2>
-@using (Html.BeginForm("UpdateEvent", "EventPeople", FormMethod.Post))
+<h2>Create</h2>
+
+@using (Html.BeginForm("CreateEvent", "EventPeople", FormMethod.Post))
 {
     <div class="form-horizontal">
-
-        
 
         <div class="form-group form-group-lg">
             <label>Event ID</label>
@@ -27,7 +26,7 @@
 
 
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Spara" class="btn btn-info" /> | @Html.ActionLink("Tillbaka", "Index")
+            <input type="submit" value="Spara" class="btn btn-info" /> | @Html.ActionLink("Tillbaka", "People", new {id= Model.User_Id })
         </div>
 
     </div>

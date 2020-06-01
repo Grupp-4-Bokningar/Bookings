@@ -10,6 +10,7 @@
     <h2>
         @Html.DisplayFor(m=>item.User_Name)
     </h2>
+    <h4>@Html.ActionLink("Skapa ny", "CreateUser", new {id = item.User_Id })</h4>
     break;
 }
 
@@ -34,25 +35,36 @@
 
     @foreach (var item in Model)
     {
-    <tr>
+        if (item.Booking_Id != null)
+        {
+            <tr>
 
-        <td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Event_Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Event_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Event_Start_Datetime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Event_End_Datetime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.User_Type)
+                </td>
+                <td>
+                    @Html.ActionLink("Ändra", "EditEvent", new { id = item.Booking_Id }) |
+                    @Html.ActionLink("Ta bort", "DeleteEvent", new { id = item.Booking_Id })
+                </td>
+            </tr>
+        }
+        else
+        {
+            break;
+        }
 
-            @Html.DisplayFor(modelItem => item.Event_Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelitem => item.Event_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelitem => item.Event_Start_Datetime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelitem => item.Event_End_Datetime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelitem => item.User_Type)
-        </td>
-    </tr>
     }
 </table>
 @Html.ActionLink("Tillbaka", "index", "EventPeople")
