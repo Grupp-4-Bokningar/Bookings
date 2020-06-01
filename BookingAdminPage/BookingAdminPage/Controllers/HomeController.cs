@@ -9,11 +9,12 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Net;
-
+using NLog;
 namespace BookingAdminPage.Controllers
 {
     public class HomeController : Controller
     {
+        public readonly Logger logger = NLog.LogManager.GetCurrentClassLogger();
         string baseUrl = "http://193.10.202.81/BookingService/";
         // GET: Home
         [Authorize]
@@ -67,10 +68,12 @@ namespace BookingAdminPage.Controllers
                     var response = await client.PostAsJsonAsync("api/Bookings", booking);
                     if (response.IsSuccessStatusCode)
                     {
+                        logger.Info("Skapades ny bokning");
                         return RedirectToAction("Index");
                     }
                     else
                     {
+                        logger.Error("Lyckades inte skapa ny bokning");
                         ModelState.AddModelError(string.Empty, "Server error try after some time.");
                     }
                 }
@@ -119,10 +122,12 @@ namespace BookingAdminPage.Controllers
                     var response = await client.PutAsJsonAsync($"api/Bookings/{booking.Booking_Id}", booking);
                     if (response.IsSuccessStatusCode)
                     {
+                        logger.Info("Uppdaterade en bokning");
                         return RedirectToAction("Index");
                     }
                     else
                     {
+                        logger.Error("Lyckades inte uppdatera en bokning");
                         ModelState.AddModelError(string.Empty, "Server error try after some time.");
                     }
                 }
@@ -171,9 +176,11 @@ namespace BookingAdminPage.Controllers
                 var response = await client.DeleteAsync($"api/Bookings/{id}");
                 if (response.IsSuccessStatusCode)
                 {
+                    logger.Info("Raderade en bokning");
                     return RedirectToAction("Index");
                 }
                 else
+                    logger.Error("Misslyckades med att radera bokning");
                     ModelState.AddModelError(string.Empty, "Server error try after some time.");
             }
             return RedirectToAction("Index");

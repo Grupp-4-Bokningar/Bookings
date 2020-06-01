@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.Net;
+using NLog;
 
 namespace BookingAdminPage.Controllers
 {
     public class EventPeopleController : Controller
     {
+        public readonly Logger logger = NLog.LogManager.GetCurrentClassLogger();
         // GET: EventPeople
         string baseUrl = "http://193.10.202.81/BookingService/";
         string baseUrlEvent = "http://193.10.202.77/EventService/";
@@ -267,10 +269,12 @@ namespace BookingAdminPage.Controllers
                     var response = await client.PutAsJsonAsync($"api/Bookings/{booking.Booking_Id}", booking);
                     if (response.IsSuccessStatusCode)
                     {
+                        logger.Info("Uppdatera baserat på parametrar");
                         return RedirectToAction("Event");
                     }
                     else
                     {
+                        logger.Error("Misslyckades med uppdatering");
                         ModelState.AddModelError(string.Empty, "Server error try after some time.");
                     }
                 }
@@ -318,9 +322,11 @@ namespace BookingAdminPage.Controllers
                 var response = await client.DeleteAsync($"api/Bookings/{id}");
                 if (response.IsSuccessStatusCode)
                 {
+                    logger.Info("Raderade bokning baserat på parametrar");
                     return RedirectToAction("Event");
                 }
                 else
+                    logger.Error("Misslyckades med att radera");
                     ModelState.AddModelError(string.Empty, "Server error try after some time.");
             }
             return RedirectToAction("Event");
@@ -347,10 +353,12 @@ namespace BookingAdminPage.Controllers
                     var response = await client.PostAsJsonAsync("api/Bookings", booking);
                     if (response.IsSuccessStatusCode)
                     {
+                        logger.Info("Skapade ny bokning baserat på parametrar");
                         return RedirectToAction("Index");
                     }
                     else
                     {
+                        logger.Error("Misslyckades med att skapa nytt");
                         ModelState.AddModelError(string.Empty, "Server error try after some time.");
                     }
                 }

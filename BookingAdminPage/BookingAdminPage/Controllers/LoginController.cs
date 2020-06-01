@@ -11,12 +11,14 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Net;
+using NLog;
 
 namespace BookingAdminPage.Controllers
 {
 
     public class LoginController : Controller
     {
+        public readonly Logger logger = NLog.LogManager.GetCurrentClassLogger();
         string baseUrl = "http://193.10.202.76/";
         // GET: Login
         public async Task<bool> CheckLogin([Bind(Include = "Id,username,password,permission")] CredentialsRecived creds)
@@ -57,11 +59,13 @@ namespace BookingAdminPage.Controllers
             if (IsValid(model))
             {
                 FormsAuthentication.SetAuthCookie(model.username, false);
+                logger.Info("Inloggning lyckades");
                 return Redirect(ReturnUrl);
             }
             else
             {
                 ViewBag.LogginFailed = true;
+                logger.Error("Inloggning misslyckades");
                 return View(model);
             }
         }
