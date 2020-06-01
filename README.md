@@ -13,10 +13,10 @@ Users can subscribe to specific locations. There is possiblity to show all subsc
 Together with another subproject integrated a REST-API to see events, and be able with our own Booking REST API to 'book' themself on that event. Forms to be able to use CRUD.
 
 # Projectmembers
-1. Felix Persson
-2. Hugo Linlycke
-3. Mauro Karlsfred
-4. Victor Bengtsson
+1. Felix Persson: brunzt
+2. Hugo Linlycke: hugolinlycke
+3. Mauro Karlsfred: maomoak
+4. Victor Bengtsson: b3ngtsson
 
 # GIT-commands for future
 1. [windows] + [R]. search -> cmd -> [Enter]
