@@ -1,0 +1,58 @@
+﻿@model List<BookingAdminPage.Models.AdminDataModell>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Alla bokningar</h2>
+@Html.ActionLink("Skapa ny bokning", "Create")
+<table class="table table-striped">
+    <tr>
+        <th>
+            Booknings ID
+        </th>
+        <th>
+            Event namn
+        </th>
+        <th>
+            Starttid
+        </th>
+        <th>
+            Sluttid
+        </th>
+        <th>
+            Användarnamn
+        </th>
+        <th>
+            Användartyp
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Booking_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Event_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Event_Start_Datetime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Event_End_Datetime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User_Type)
+        </td>
+        <td>
+            @Html.ActionLink("Ändra", "Edit", new { id = item.Booking_Id }) |
+            @Html.ActionLink("Ta bort", "Delete", new { id = item.Booking_Id })
+        </td>
+
+    </tr>
+    }
+</table>
