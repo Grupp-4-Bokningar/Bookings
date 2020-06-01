@@ -53,6 +53,7 @@ namespace BookingService.Controllers
                 catch(InvalidOperationException e) //Ifall tjänsterna inte funkar så hämtas enbart ID från databasen och returneras
                 {
                     //Lägg in loggning här.
+                    log.Error(e);
                     for(var t = 0; t < sql.Count(); t++)
                     {
                         temp = sql[t];
@@ -129,6 +130,7 @@ namespace BookingService.Controllers
                 }
                 catch (InvalidOperationException e)
                 {
+                    log.Error(e);
                     //Lägg in loggning här.
                     for (var t = 0; t < sql.Count(); t++)
                     {
@@ -206,6 +208,7 @@ namespace BookingService.Controllers
                 }
                 catch (InvalidOperationException e)
                 {
+                    log.Error(e);
                     //Lägg in loggning här.
                     for (var t = 0; t < sql.Count(); t++)
                     {
@@ -282,6 +285,7 @@ namespace BookingService.Controllers
                 }
                 catch (InvalidOperationException e)
                 {
+                    log.Error(e);
                     //Lägg in loggning här.
                     for (var t = 0; t < sql.Count(); t++)
                     {
@@ -390,11 +394,13 @@ namespace BookingService.Controllers
         {
             if (!ModelState.IsValid)
             {
+                log.Error("Fel parametrar inskickade, BadRequest");
                 return BadRequest(ModelState);
             }
 
             if (id != bookings.Booking_Id)
             {
+                log.Error("Inskickade ID finns inte");
                 return BadRequest();
             }
 
@@ -409,9 +415,11 @@ namespace BookingService.Controllers
                 {
                     db.Entry(bookings).State = EntityState.Modified;
                     db.SaveChanges();
+                    log.Info("Lyckades uppdatera");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException e)
                 {
+                    log.Error(e);
                     if (!BookingsExists(id))
                     {
                         return NotFound();
@@ -438,6 +446,7 @@ namespace BookingService.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    log.Error("Fel parametrar inskickade, BadRequest");
                     return BadRequest(ModelState);
                 }
 
@@ -450,6 +459,7 @@ namespace BookingService.Controllers
                 {
                     db.Bookings.Add(bookings);
                     db.SaveChanges();
+                    log.Info("Lyckdes skapa ny bokning");
                     return Ok(bookings);
                 }
                 else
@@ -463,7 +473,7 @@ namespace BookingService.Controllers
             }
             catch(Exception e)
             {
-                Console.Write(e);
+                log.Error(e);
                 throw;
             }
            
@@ -482,7 +492,7 @@ namespace BookingService.Controllers
 
             db.Bookings.Remove(bookings);
             db.SaveChanges();
-
+            log.Info("Lyckades ta bort bokning");
             return Ok(true);
         }
         [Route("User/{uId:int}/Event/{eId:int}")]
@@ -502,7 +512,7 @@ namespace BookingService.Controllers
 
             db.Bookings.Remove(bookings);
             db.SaveChanges();
-
+            log.Info("Tog bort bokning för specifik användare och event");
             return Ok(true);
         }
 
