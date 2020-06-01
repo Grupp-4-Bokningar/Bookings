@@ -185,13 +185,16 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
-    <Content Include="Views\Home\Delete.cshtml" />
+    <Content Include="Views\Home\DeleteEvent.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
     <Content Include="Views\EventPeople\People.cshtml" />
     <Content Include="Views\EventPeople\SpecificEvent.cshtml" />
     <Content Include="Views\EventPeople\Index.cshtml" />
     <Content Include="Views\EventPeople\Event.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\EventPeople\EditEvent.cshtml" />
+    <Content Include="Views\EventPeople\Delete.cshtml" />
+    <Content Include="Views\EventPeople\CreateEvent.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

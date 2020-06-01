@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace BookingAdminPage.Controllers
 {
@@ -96,6 +97,7 @@ namespace BookingAdminPage.Controllers
             {
                 List<AdminDataModell> EventInfo = new List<AdminDataModell>();
                 List<AdminDataModell> tempList = new List<AdminDataModell>();
+                AdminDataModell tempObj = new AdminDataModell();
 
                 using (var client = new HttpClient())
                 {
@@ -119,6 +121,7 @@ namespace BookingAdminPage.Controllers
                         //Deserializing the response recieved from web api and storing into the Employee list  
                         EventInfo = JsonConvert.DeserializeObject<List<AdminDataModell>>(AdminDataModellResponse);
 
+
                         tempList = getVolounteer(id).Result;
 
                         if(tempList != null)
@@ -127,10 +130,19 @@ namespace BookingAdminPage.Controllers
                         }
                     }
 
-                   
+                   if(EventInfo.Count > 0)
+                    {
+                        return View(EventInfo);
+                    }
+                    else
+                    {
+                        tempObj.Event_Id = id;
+                        EventInfo.Add(tempObj);
+                        return View(EventInfo);
+                    }
 
                     //returning the employee list to view  
-                    return View(EventInfo);
+                    
                 }
             }
             catch (Exception)
@@ -212,6 +224,138 @@ namespace BookingAdminPage.Controllers
                 //returning the employee list to view
                 return View(allEventsList);
             }
+        }
+        [Authorize]
+        public async Task<ActionResult> EditEvent(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            BookingModel booking = null;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrl);
+
+                HttpResponseMessage Res = await client.GetAsync($"api/bookings/{id}");
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    var responseBooking = Res.Content.ReadAsStringAsync().Result;
+                    //booking = await Res.Content.ReadAsAsync<AdminDataModell>();
+                    booking = JsonConvert.DeserializeObject<BookingModel>(responseBooking);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Server error try after some time.");
+                }
+            }
+            if (booking == null)
+            {
+                return HttpNotFound();
+            }
+            return View(booking);
+        }
+        [HttpPost]
+        public async Task<ActionResult> UpdateEvent([Bind(Include = "Booking_Id,Event_Id,User_Id,User_Type")] BookingModel booking)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(baseUrl);
+                    var response = await client.PutAsJsonAsync($"api/Bookings/{booking.Booking_Id}", booking);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Event");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Server error try after some time.");
+                    }
+                }
+                return RedirectToAction("Event");
+            }
+            return View(booking);
+        }
+        [Authorize]
+        public async Task<ActionResult> DeleteEvent(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            BookingModel booking = null;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrl);
+
+                var result = await client.GetAsync($"api/Bookings/{id}");
+
+                if (result.IsSuccessStatusCode)
+                {
+                    booking = await result.Content.ReadAsAsync<BookingModel>();
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Server error try after some time.");
+                }
+            }
+
+            if (booking == null)
+            {
+                return HttpNotFound();
+            }
+            return View(booking);
+        }
+        [HttpPost, ActionName("Delete")]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrl);
+
+                var response = await client.DeleteAsync($"api/Bookings/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Event");
+                }
+                else
+                    ModelState.AddModelError(string.Empty, "Server error try after some time.");
+            }
+            return RedirectToAction("Event");
+        }
+        [Authorize]
+        public ActionResult CreateEvent(int id)
+        {
+            
+            BookingModel booking = new BookingModel();
+            booking.Event_Id = id;
+
+             return View(booking);
+           
+        }
+        [HttpPost]
+        public async Task<ActionResult> CreateEvent([Bind(Include = "Event_Id,User_Id,User_Type")] BookingModel booking)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(baseUrl);
+
+                    var response = await client.PostAsJsonAsync("api/Bookings", booking);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Server error try after some time.");
+                    }
+                }
+            }
+            return RedirectToAction("Index");
         }
     }
 }
