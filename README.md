@@ -1,5 +1,5 @@
 # Service-oriented system with REST. C#
-Project for a service oriented system. We developed 2 service; 
+Project for a service-oriented system. We developed 2 service and a adminpage; 
 
 # Content in main
 
