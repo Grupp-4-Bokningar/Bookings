@@ -6,10 +6,10 @@ Project for a service oriented system. We developed 2 service;
 # Bookings - REST
 Bookingservice is for volonteers and attendees to 'book/sign up' themself on a specific event. Admin has CRUD abilities.
 
-# Subscription
+# Subscription - REST
 Users can subscribe to specific locations. There is possiblity to show all subscribed events on a users own profile. Altough not in this project. 
 
-# AdminPage, Frontend MVC
+# AdminPage, Frontend ASP.NET MVC
 Together with another subproject integrated a REST-API to see events, and be able with our own Booking REST API to 'book' themself on that event. Forms to be able to use CRUD.
 
 # Projectmembers
