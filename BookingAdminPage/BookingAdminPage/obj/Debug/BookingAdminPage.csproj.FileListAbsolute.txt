@@ -330,3 +330,6 @@ D:\GAMEDEV\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage
 D:\GAMEDEV\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage.csproj.CopyComplete
 D:\GAMEDEV\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage.dll
 D:\GAMEDEV\Bookings\BookingAdminPage\BookingAdminPage\obj\Debug\BookingAdminPage.pdb
+D:\GAMEDEV\Bookings\BookingAdminPage\BookingAdminPage\bin\NLog.config
+D:\GAMEDEV\Bookings\BookingAdminPage\BookingAdminPage\bin\NLog.dll
+D:\GAMEDEV\Bookings\BookingAdminPage\BookingAdminPage\bin\NLog.xml
