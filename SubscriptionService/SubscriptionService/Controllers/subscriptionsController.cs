@@ -162,7 +162,7 @@ namespace SubscriptionService.Controllers
             {
                 db.SaveChanges();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException) //ifall inga rader i databasen uppdateras
             {
                 if (!subscriptionExists(id))
                 {

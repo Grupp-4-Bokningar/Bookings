@@ -52,8 +52,7 @@ namespace BookingService.Controllers
                 }
                 catch(InvalidOperationException e) //Ifall tjänsterna inte funkar så hämtas enbart ID från databasen och returneras
                 {
-                    //Lägg in loggning här.
-                    log.Error(e);
+                    log.Error(e); //loggar exception
                     for(var t = 0; t < sql.Count(); t++)
                     {
                         temp = sql[t];
