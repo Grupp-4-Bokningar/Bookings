@@ -1,0 +1,7 @@
+------Info(2020-06-03 10:42:07.4726)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Uppdatera baserat på parametrar
+

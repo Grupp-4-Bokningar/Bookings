@@ -1,0 +1,14 @@
+------Info(2020-06-03 10:41:27.7524)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Inloggning lyckades
+
+------Info(2020-06-03 10:41:42.5064)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Uppdatera baserat på parametrar
+

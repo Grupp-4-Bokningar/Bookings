@@ -1,0 +1,7 @@
+------Info(2020-06-03 10:48:09.3758)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Skapade ny bokning baserat på parametrar
+

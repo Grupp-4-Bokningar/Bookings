@@ -1,0 +1,21 @@
+------Info(2020-06-03 10:47:28.9848)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Inloggning lyckades
+
+------Info(2020-06-03 10:47:40.5728)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Skapades ny bokning
+
+------Info(2020-06-03 10:47:57.8249)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Skapade ny bokning baserat på parametrar
+

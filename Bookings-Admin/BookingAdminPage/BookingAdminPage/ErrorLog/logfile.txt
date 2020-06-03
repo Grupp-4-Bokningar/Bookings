@@ -1,0 +1,7 @@
+------Info(2020-06-03 11:23:55.1114)DESKTOP-T84V6TI------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Inloggning lyckades
+

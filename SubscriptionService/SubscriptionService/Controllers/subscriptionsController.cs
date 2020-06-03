@@ -32,7 +32,7 @@ namespace SubscriptionService.Controllers
         private SubscriptionModel db = new SubscriptionModel(); //skapar ny databasmodell.
 
 
-        //GET: All for one user, kopplad till event så att returvvärdcet är en list<> med event.
+        //GET: All for one user, kopplad till event så att returvärdet är en list<> med event.
         [Route("user/{uid:int}")]
         public List<EventModell> GetEventSubscriptionsFromUser(int uid)
         {
@@ -51,7 +51,6 @@ namespace SubscriptionService.Controllers
                 catch (InvalidOperationException e)
                 {
                     logger.Error(e);
-                    //TODO Lägg in loggning här.
                     Console.Write(e); //loggar exception så länge. 
                 }
             }
