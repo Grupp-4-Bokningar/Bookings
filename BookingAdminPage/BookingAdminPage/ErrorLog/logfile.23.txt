@@ -1,0 +1,14 @@
+------Info(2020-06-03 10:28:06.4692)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Uppdaterade en bokning
+
+------Info(2020-06-03 10:28:18.4917)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Uppdaterade en bokning
+

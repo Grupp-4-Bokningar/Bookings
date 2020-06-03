@@ -19,12 +19,21 @@ namespace BookingAdminPage.Controllers
         string baseUrlEvent = "http://193.10.202.77/EventService/";
         string baseUrlLogin = "http://193.10.202.76/";
         [Authorize]
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
 
 
-            List<User> userList = new List<User>();
+            
 
+            
+                //returning the employee list to view
+                return View(GetUser().Result);
+            
+
+        }
+        public async Task<List<User>> GetUser()
+        {
+            List<User> userList = new List<User>();
             using (var client = new HttpClient())
             {
                 //Passing service base url  
@@ -35,7 +44,7 @@ namespace BookingAdminPage.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 //Sending request to find web api REST service resource GetAllEmployees using HttpClient  
-                HttpResponseMessage Res = await client.GetAsync("api/visitor");
+                HttpResponseMessage Res = client.GetAsync("api/visitor").Result;
 
                 //Checking the response is successful or not which is sent using HttpClient  
                 if (Res.IsSuccessStatusCode)
@@ -47,10 +56,8 @@ namespace BookingAdminPage.Controllers
                     userList = JsonConvert.DeserializeObject<List<User>>(response);
 
                 }
-                //returning the employee list to view
-                return View(userList);
             }
-
+            return userList;
         }
         [Authorize]
         public async Task<ActionResult> People(int id)
@@ -207,7 +214,14 @@ namespace BookingAdminPage.Controllers
             }
         }
         [Authorize]
-        public async Task<ActionResult> Event()
+        public ActionResult Event()
+        {
+            
+                //returning the employee list to view
+                return View(GetAllEvent().Result);
+            
+        }
+        public async Task<List<EventModell>> GetAllEvent()
         {
             List<EventModell> allEventsList = new List<EventModell>();
 
@@ -221,7 +235,7 @@ namespace BookingAdminPage.Controllers
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 //Sending request to find web api REST service resource GetAllEmployees using HttpClient  
-                HttpResponseMessage Res = await client.GetAsync("api/Events");
+                HttpResponseMessage Res = client.GetAsync("api/Events").Result;
 
                 //Checking the response is successful or not which is sent using HttpClient  
                 if (Res.IsSuccessStatusCode)
@@ -233,9 +247,9 @@ namespace BookingAdminPage.Controllers
                     allEventsList = JsonConvert.DeserializeObject<List<EventModell>>(responseEvent);
 
                 }
-                //returning the employee list to view
-                return View(allEventsList);
+                    return allEventsList;
             }
+
         }
         [Authorize]
         public async Task<ActionResult> EditEvent(int id)
@@ -262,6 +276,10 @@ namespace BookingAdminPage.Controllers
                     ModelState.AddModelError(string.Empty, "Server error try after some time.");
                 }
             }
+
+            ViewBag.Event = GetAllEvent().Result;
+            ViewBag.User = GetUser().Result;
+
             if (booking == null)
             {
                 return HttpNotFound();
@@ -347,6 +365,8 @@ namespace BookingAdminPage.Controllers
             
             BookingModel booking = new BookingModel();
             booking.Event_Id = id;
+            ViewBag.Event = GetAllEvent().Result;
+            ViewBag.User = GetUser().Result;
 
              return View(booking);
            
@@ -357,6 +377,8 @@ namespace BookingAdminPage.Controllers
 
             BookingModel booking = new BookingModel();
             booking.User_Id = id;
+            ViewBag.Event = GetAllEvent().Result;
+            ViewBag.User = GetUser().Result;
 
             return View(booking);
 

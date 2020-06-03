@@ -16,11 +16,13 @@ namespace BookingAdminPage.Controllers
     {
         public readonly Logger logger = NLog.LogManager.GetCurrentClassLogger();
         string baseUrl = "http://193.10.202.81/BookingService/";
+        string baseUrlEvent = "http://193.10.202.77/EventService/api/";
+        string baseUrlUser = "http://193.10.202.76/api/";
         // GET: Home
         [Authorize]
         public async Task<ActionResult> Index()
         {
-
+            
 
             List<AdminDataModell> allBookingList = new List<AdminDataModell>();
 
@@ -54,6 +56,8 @@ namespace BookingAdminPage.Controllers
         [Authorize]
         public ActionResult Create()
         {
+            ViewBag.Event = getEvent().Result;
+            ViewBag.User = getUser().Result;
             return View();
         }
         [HttpPost]
@@ -105,11 +109,61 @@ namespace BookingAdminPage.Controllers
                     ModelState.AddModelError(string.Empty, "Server error try after some time.");
                 }
             }
+            
+            ViewBag.Event = getEvent().Result;
+            ViewBag.User = getUser().Result;
+
             if (booking == null)
             {
                 return HttpNotFound();
             }
             return View(booking);
+        }
+        public async Task<List<EventModell>> getEvent()
+        {
+            List<EventModell> temp = new List<EventModell>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrlEvent);
+
+                HttpResponseMessage Res = client.GetAsync("events/").Result;
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    var response = Res.Content.ReadAsStringAsync().Result;
+                    
+                    temp = JsonConvert.DeserializeObject<List<EventModell>>(response);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Server error try after some time.");
+                }
+            }
+
+            return temp;
+        }
+        public async Task<List<User>> getUser()
+        {
+            List<User> temp = new List<User>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrlUser);
+
+                HttpResponseMessage Res = client.GetAsync("visitor/").Result;
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    var response = Res.Content.ReadAsStringAsync().Result;
+                    
+                    temp = JsonConvert.DeserializeObject<List<User>>(response);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Server error try after some time.");
+                }
+            }
+
+            return temp;
         }
         [HttpPost]
         public async Task<ActionResult> Update([Bind(Include = "Booking_Id,Event_Id,User_Id,User_Type")] BookingModel booking)

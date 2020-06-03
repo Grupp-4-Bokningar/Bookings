@@ -1,0 +1,7 @@
+------Info(2020-06-03 10:49:57.7216)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Inloggning lyckades
+

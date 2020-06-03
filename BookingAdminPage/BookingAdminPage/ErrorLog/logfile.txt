@@ -1,0 +1,42 @@
+------Info(2020-06-03 10:52:09.6812)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Raderade en bokning
+
+------Info(2020-06-03 10:52:14.0880)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Raderade en bokning
+
+------Info(2020-06-03 10:52:19.0299)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Raderade en bokning
+
+------Info(2020-06-03 10:52:26.2650)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Raderade en bokning
+
+------Info(2020-06-03 10:52:30.7963)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Raderade en bokning
+
+------Info(2020-06-03 10:52:35.3545)DESKTOP-KST56Q9------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Raderade en bokning
+
